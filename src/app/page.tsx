@@ -1,7 +1,15 @@
-export default function HomePage() {
+import { getLibraryStats, listSeriesForLibrary } from "@/actions/series";
+import { StatsRow } from "@/components/StatsRow";
+import { SeriesGrid } from "@/components/SeriesGrid";
+
+export const dynamic = "force-dynamic";
+
+export default async function HomePage() {
+  const [stats, series] = await Promise.all([getLibraryStats(), listSeriesForLibrary()]);
   return (
-    <div className="text-sm text-muted">
-      Mangatek — bibliothèque vide. Ajoute ta première série depuis le bouton en haut à droite.
+    <div>
+      <StatsRow stats={stats} />
+      <SeriesGrid series={series} />
     </div>
   );
 }
