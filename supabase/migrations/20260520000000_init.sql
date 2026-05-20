@@ -25,3 +25,12 @@ create table mangateque.volumes (
 );
 
 create index volumes_series_id_idx on mangateque.volumes(series_id);
+
+-- Grant access to PostgREST roles (required for the Data API to see custom schemas).
+grant usage on schema mangateque to anon, authenticated, service_role;
+grant all on all tables in schema mangateque to anon, authenticated, service_role;
+grant all on all sequences in schema mangateque to anon, authenticated, service_role;
+alter default privileges in schema mangateque
+  grant all on tables to anon, authenticated, service_role;
+alter default privileges in schema mangateque
+  grant all on sequences to anon, authenticated, service_role;
