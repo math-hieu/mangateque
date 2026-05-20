@@ -6,6 +6,7 @@ export function supabase() {
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !key) throw new Error("Missing Supabase env vars");
   return createClient(url, key, {
+    db: { schema: "mangateque" },
     auth: { persistSession: false, autoRefreshToken: false },
   });
 }

@@ -1,6 +1,8 @@
 create extension if not exists "pgcrypto";
 
-create table series (
+create schema if not exists mangateque;
+
+create table mangateque.series (
   id uuid primary key default gen_random_uuid(),
   anilist_id integer,
   title text not null,
@@ -12,9 +14,9 @@ create table series (
   created_at timestamptz not null default now()
 );
 
-create table volumes (
+create table mangateque.volumes (
   id uuid primary key default gen_random_uuid(),
-  series_id uuid not null references series(id) on delete cascade,
+  series_id uuid not null references mangateque.series(id) on delete cascade,
   number integer not null check (number > 0),
   price numeric(6,2) not null check (price >= 0),
   is_read boolean not null default false,
@@ -22,4 +24,4 @@ create table volumes (
   unique (series_id, number)
 );
 
-create index volumes_series_id_idx on volumes(series_id);
+create index volumes_series_id_idx on mangateque.volumes(series_id);
