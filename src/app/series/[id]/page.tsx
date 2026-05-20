@@ -20,11 +20,11 @@ export default async function SeriesPage({ params }: { params: Promise<{ id: str
 
   return (
     <div>
-      <div className="mt-mono mb-4 text-[11px] text-muted" style={{ letterSpacing: "0.06em" }}>
+      <div className="mt-mono mb-4 truncate text-[10px] text-muted sm:text-[11px]" style={{ letterSpacing: "0.06em" }}>
         <Link href="/" className="hover:text-cream">BIBLIOTHÈQUE</Link>
-        <span className="px-2">›</span>
+        <span className="px-1.5 sm:px-2">›</span>
         <span>{series.publisher.toUpperCase()}</span>
-        <span className="px-2">›</span>
+        <span className="px-1.5 sm:px-2">›</span>
         <span>{series.title.toUpperCase()}</span>
       </div>
 
@@ -37,7 +37,7 @@ export default async function SeriesPage({ params }: { params: Promise<{ id: str
       />
 
       <div className="overflow-hidden rounded-xl border border-[var(--border)] bg-surface">
-        <div className="flex items-center justify-between border-b border-[var(--border)] px-[18px] py-3.5">
+        <div className="flex items-center justify-between border-b border-[var(--border)] px-3 py-3 sm:px-[18px] sm:py-3.5">
           <div className="text-sm font-medium">Tomes possédés</div>
         </div>
         <VolumesTable volumes={volumes} />

@@ -4,7 +4,9 @@ import { useRef, useState, useTransition } from "react";
 import { toast } from "sonner";
 import { addVolume } from "@/actions/volumes";
 
-const ROW_GRID = "60px 100px 1fr 120px 120px 40px";
+// Mobile: number / price (wide) / ENTRER / spacer. Desktop: aligns with the 6-col header.
+const GRID_CLS =
+  "grid grid-cols-[44px_1fr_auto_36px] sm:grid-cols-[60px_100px_1fr_120px_120px_40px]";
 
 export function QuickAddVolume({ seriesId, suggestedNumber }: { seriesId: string; suggestedNumber: number }) {
   const [number, setNumber] = useState(String(suggestedNumber));
@@ -33,8 +35,8 @@ export function QuickAddVolume({ seriesId, suggestedNumber }: { seriesId: string
   return (
     <form
       onSubmit={submit}
-      className="grid items-center border-t border-dashed border-[var(--border-2)] px-[18px] py-3"
-      style={{ gridTemplateColumns: ROW_GRID, background: "rgba(232,161,74,0.04)" }}
+      className={`${GRID_CLS} items-center gap-2 border-t border-dashed border-[var(--border-2)] px-3 py-3 sm:gap-0 sm:px-[18px]`}
+      style={{ background: "rgba(232,161,74,0.04)" }}
     >
       <input
         ref={numberRef}
@@ -50,27 +52,27 @@ export function QuickAddVolume({ seriesId, suggestedNumber }: { seriesId: string
           border: "1px solid var(--amber)",
           borderRadius: 4,
           padding: "2px 8px",
-          minWidth: 40,
+          minWidth: 36,
           outline: "none",
         }}
       />
-      <span className="text-[11px] text-muted">par défaut</span>
-      <span className="text-[11px] italic text-muted">—</span>
+      <span className="hidden text-[11px] text-muted sm:inline">par défaut</span>
+      <span className="hidden text-[11px] italic text-muted sm:inline">—</span>
       <input
         type="text"
         inputMode="decimal"
         value={price}
         onChange={(e) => setPrice(e.target.value)}
         placeholder="8,25 €"
-        className="mt-mono bg-transparent text-right text-[13px] text-cream outline-none placeholder:text-muted-2"
+        className="mt-mono w-full bg-transparent text-right text-[13px] text-cream outline-none placeholder:text-muted-2"
       />
       <button
         type="submit"
         disabled={pending}
-        className="mt-mono text-right text-[11px] text-amber hover:text-amber-deep"
+        className="mt-mono shrink-0 text-right text-[11px] text-amber hover:text-amber-deep"
         style={{ letterSpacing: "0.06em" }}
       >
-        ↵ ENTRER
+        ↵<span className="hidden sm:inline"> ENTRER</span>
       </button>
       <span />
     </form>

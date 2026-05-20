@@ -62,13 +62,13 @@ export function SeriesActions({ series }: { series: Series }) {
         onClose={() => setOpen(false)}
         className="rounded-xl border border-[var(--border-2)] bg-surface p-0 text-cream backdrop:bg-black/60"
       >
-        <div className="w-[480px] max-w-[90vw] space-y-4 p-6">
+        <div className="w-[480px] max-w-[calc(100vw-2rem)] space-y-4 p-4 sm:p-6">
           <h2 className="text-lg font-medium tracking-tight">Modifier la série</h2>
           <div>
             <label className="mt-label mb-1.5 block">Titre</label>
             <input className="mt-input" value={title} onChange={(e) => setTitle(e.target.value)} />
           </div>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div>
               <label className="mt-label mb-1.5 block">Éditeur</label>
               <input className="mt-input" value={publisher} onChange={(e) => setPublisher(e.target.value)} />
@@ -78,7 +78,7 @@ export function SeriesActions({ series }: { series: Series }) {
               <input className="mt-input" value={variant} onChange={(e) => setVariant(e.target.value)} />
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div>
               <label className="mt-label mb-1.5 block">Nb total de tomes</label>
               <input className="mt-input" type="number" min={1} value={total} onChange={(e) => setTotal(e.target.value)} />

@@ -17,7 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="fr" className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
       <body className="font-sans">
         <Topbar />
-        <main className="mx-auto max-w-7xl px-12 pt-7 pb-14">{children}</main>
+        <main className="mx-auto max-w-7xl px-4 pt-5 pb-10 sm:px-8 sm:pt-7 sm:pb-14 lg:px-12">{children}</main>
         <Toaster
           theme="dark"
           position="bottom-right"

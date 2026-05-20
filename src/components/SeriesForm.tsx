@@ -56,7 +56,7 @@ export function SeriesForm({ initial }: { initial?: SeriesFormInitial }) {
         <label className="mt-label mb-1.5 block">URL de la couverture</label>
         <input className="mt-input" value={coverUrl} onChange={(e) => setCoverUrl(e.target.value)} placeholder="https://..." />
       </div>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
           <label className="mt-label mb-1.5 block">Éditeur</label>
           <input className="mt-input" value={publisher} onChange={(e) => setPublisher(e.target.value)} required placeholder="Ki-oon, Glénat, ..." />
@@ -66,7 +66,7 @@ export function SeriesForm({ initial }: { initial?: SeriesFormInitial }) {
           <input className="mt-input" value={variant} onChange={(e) => setVariant(e.target.value)} placeholder="Édition originale, Perfect..." />
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
           <label className="mt-label mb-1.5 block">Nb total de tomes (optionnel)</label>
           <input className="mt-input" type="number" min={1} value={totalVolumes} onChange={(e) => setTotalVolumes(e.target.value)} />

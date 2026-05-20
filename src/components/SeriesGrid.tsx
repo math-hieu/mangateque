@@ -34,8 +34,8 @@ export function SeriesGrid({ series }: { series: SeriesCardData[] }) {
 
   return (
     <div>
-      <div className="mb-[18px] flex items-center gap-2 rounded-[10px] border border-[var(--border)] bg-surface p-2">
-        <div className="flex flex-1 items-center gap-2 rounded-md border border-[var(--border)] bg-ink-2 px-2.5 py-1.5">
+      <div className="mb-[18px] flex flex-wrap items-center gap-2 rounded-[10px] border border-[var(--border)] bg-surface p-2">
+        <div className="order-1 flex w-full min-w-0 flex-1 items-center gap-2 rounded-md border border-[var(--border)] bg-ink-2 px-2.5 py-1.5 sm:order-none sm:w-auto">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-muted">
             <circle cx="11" cy="11" r="7" />
             <path d="m20 20-3.5-3.5" />
@@ -86,7 +86,7 @@ export function SeriesGrid({ series }: { series: SeriesCardData[] }) {
       {filtered.length === 0 ? (
         <p className="text-sm text-muted">Aucune série ne correspond.</p>
       ) : (
-        <div className="grid gap-4 grid-cols-[repeat(auto-fill,minmax(200px,1fr))]">
+        <div className="grid gap-3 grid-cols-2 sm:gap-4 sm:grid-cols-[repeat(auto-fill,minmax(200px,1fr))]">
           {filtered.map((s) => <SeriesCard key={s.id} s={s} />)}
         </div>
       )}
