@@ -1,9 +1,100 @@
 "use client";
 
-import { useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { toast } from "sonner";
 import type { Volume } from "@/lib/types";
-import { toggleVolumeRead, deleteVolume } from "@/actions/volumes";
+import { toggleVolumeRead, deleteVolume, updateVolumePrice } from "@/actions/volumes";
+
+function formatPrice(price: number): string {
+  return price.toFixed(2).replace(".", ",");
+}
+
+function EditablePrice({ volumeId, price }: { volumeId: string; price: number }) {
+  const [editing, setEditing] = useState(false);
+  const [value, setValue] = useState(formatPrice(price));
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [pending, start] = useTransition();
+
+  useEffect(() => {
+    if (!editing) setValue(formatPrice(price));
+  }, [price, editing]);
+
+  useEffect(() => {
+    if (editing) {
+      inputRef.current?.focus();
+      inputRef.current?.select();
+    }
+  }, [editing]);
+
+  function save() {
+    const next = Number(value.replace(",", "."));
+    if (!Number.isFinite(next) || next < 0) {
+      toast.error("Prix invalide");
+      setValue(formatPrice(price));
+      setEditing(false);
+      return;
+    }
+    if (Math.abs(next - price) < 0.005) {
+      setEditing(false);
+      return;
+    }
+    start(async () => {
+      try {
+        await updateVolumePrice(volumeId, next);
+        setEditing(false);
+      } catch (e: any) {
+        toast.error(e.message ?? "Erreur");
+        setValue(formatPrice(price));
+        setEditing(false);
+      }
+    });
+  }
+
+  function cancel() {
+    setValue(formatPrice(price));
+    setEditing(false);
+  }
+
+  if (editing) {
+    return (
+      <input
+        ref={inputRef}
+        type="text"
+        inputMode="decimal"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        onBlur={save}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") save();
+          else if (e.key === "Escape") cancel();
+        }}
+        disabled={pending}
+        aria-label="Modifier le prix"
+        className="mt-mono w-full bg-transparent text-right outline-none"
+        style={{
+          fontVariantNumeric: "tabular-nums",
+          fontSize: 13,
+          color: "var(--cream)",
+          border: "1px solid var(--amber)",
+          borderRadius: 4,
+          padding: "2px 6px",
+        }}
+      />
+    );
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={() => setEditing(true)}
+      aria-label="Modifier le prix"
+      className="mt-mono w-full cursor-text rounded text-right hover:text-amber"
+      style={{ fontVariantNumeric: "tabular-nums" }}
+    >
+      {formatPrice(price)} €
+    </button>
+  );
+}
 
 // Mobile: 4 columns (N°, Lu, Prix, Delete). Desktop: 6 columns (with empty spacer + Date).
 const GRID_CLS =
@@ -89,9 +180,7 @@ export function VolumesTable({ volumes }: { volumes: Volume[] }) {
               </span>
             </span>
             <span className="hidden sm:inline" />
-            <span className="mt-mono text-right" style={{ fontVariantNumeric: "tabular-nums" }}>
-              {Number(v.price).toFixed(2).replace(".", ",")} €
-            </span>
+            <EditablePrice volumeId={v.id} price={Number(v.price)} />
             <span className="mt-mono hidden text-right text-xs text-muted sm:inline" style={{ fontVariantNumeric: "tabular-nums" }}>
               {new Date(v.created_at).toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit", year: "2-digit" })}
             </span>

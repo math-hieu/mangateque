@@ -38,6 +38,19 @@ export async function toggleVolumeRead(volumeId: string, isRead: boolean) {
   revalidatePath("/");
 }
 
+export async function updateVolumePrice(volumeId: string, price: number) {
+  if (!(price >= 0)) throw new Error("Prix invalide");
+  const { data, error } = await supabase()
+    .from("volumes")
+    .update({ price })
+    .eq("id", volumeId)
+    .select("series_id")
+    .single();
+  if (error) throw new Error(error.message);
+  revalidatePath(`/series/${data.series_id}`);
+  revalidatePath("/");
+}
+
 export async function deleteVolume(volumeId: string) {
   const { data, error } = await supabase()
     .from("volumes")
