@@ -14,8 +14,8 @@ export function SeriesCard({ s }: { s: SeriesCardData }) {
         <Cover url={s.cover_url} seedKey={s.id} title={s.title} publisher={s.publisher} />
       </div>
       <div className="flex flex-col gap-2.5 px-3 pb-3.5 pt-3">
-        <div className="flex items-baseline justify-between gap-1.5">
-          <span className="truncate text-sm font-medium leading-tight tracking-tight">{s.title}</span>
+        <div className="flex flex-col items-start gap-1.5 sm:flex-row sm:items-baseline sm:justify-between">
+          <span className="truncate w-full sm:w-auto sm:flex-1 text-sm font-medium leading-tight tracking-tight">{s.title}</span>
           <StatusTag status={s.status} compact />
         </div>
         <span className="mt-mono text-[10px] text-muted" style={{ letterSpacing: "0.06em" }}>
