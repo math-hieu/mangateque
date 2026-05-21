@@ -90,6 +90,12 @@ export function SeriesGrid({
         </label>
       </div>
       {afterFilters}
+      <h2 className="m-0 mb-3 flex items-baseline gap-2.5 px-0.5 text-[15px] font-medium tracking-tight text-cream">
+        <span>Ma bibliothèque</span>
+        <span className="mt-mono text-[11px] text-muted" style={{ letterSpacing: "0.06em" }}>
+          {filtered.length}&nbsp;{filtered.length > 1 ? "SÉRIES" : "SÉRIE"}
+        </span>
+      </h2>
       {filtered.length === 0 ? (
         <p className="text-sm text-muted">Aucune série ne correspond.</p>
       ) : (
