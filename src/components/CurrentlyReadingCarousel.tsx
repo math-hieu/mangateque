@@ -79,7 +79,7 @@ function ReadingCard({ item }: { item: ReadingItem }) {
   return (
     <article
       data-card
-      className="grid min-h-[152px] shrink-0 snap-start basis-[78%] overflow-hidden rounded-[10px] border border-[var(--border-2)] bg-surface sm:basis-[46%] md:basis-[31%] lg:basis-[32%]"
+      className="grid min-h-[152px] w-full shrink-0 snap-start basis-full overflow-hidden rounded-[10px] border border-[var(--border-2)] bg-surface sm:w-auto sm:basis-[46%] md:basis-[31%] lg:basis-[32%]"
       style={{ gridTemplateColumns: "92px 1fr" }}
     >
       <Link href={`/series/${series.id}`} className="relative block border-r border-[var(--border)]">
