@@ -35,3 +35,19 @@ export type SeriesCardData = Series & {
   read_count: number;
   total_spent: number;
 };
+
+export type ReadingItem = {
+  series: {
+    id: string;
+    title: string;
+    publisher: string;
+    edition_variant: string | null;
+    cover_url: string | null;
+  };
+  owned_count: number;
+  read_count: number;
+  next_volume: {
+    id: string;
+    number: number;
+  };
+};

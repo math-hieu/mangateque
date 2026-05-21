@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { supabase } from "@/lib/supabase";
-import type { Series, SeriesCardData, LibraryStats } from "@/lib/types";
+import type { Series, SeriesCardData, LibraryStats, ReadingItem } from "@/lib/types";
 
 export type CreateSeriesInput = {
   anilist_id: number | null;
@@ -66,6 +66,43 @@ export async function listSeriesForLibrary(): Promise<SeriesCardData[]> {
       total_spent: vols.reduce((s: number, v: any) => s + Number(v.price), 0),
     } as SeriesCardData;
   });
+}
+
+export async function listInProgressSeries(): Promise<ReadingItem[]> {
+  const { data, error } = await supabase()
+    .from("series")
+    .select("id, title, publisher, edition_variant, cover_url, volumes(id, number, is_read, created_at)");
+  if (error) throw new Error(error.message);
+
+  const items: (ReadingItem & { _activity: number })[] = [];
+  for (const row of data ?? []) {
+    const vols = (row.volumes ?? []) as { id: string; number: number; is_read: boolean; created_at: string }[];
+    if (vols.length === 0) continue;
+    const readCount = vols.filter((v) => v.is_read).length;
+    if (readCount === 0 || readCount === vols.length) continue;
+
+    const nextUnread = [...vols].sort((a, b) => a.number - b.number).find((v) => !v.is_read);
+    if (!nextUnread) continue;
+
+    const lastActivity = Math.max(...vols.map((v) => new Date(v.created_at).getTime()));
+
+    items.push({
+      series: {
+        id: row.id,
+        title: row.title,
+        publisher: row.publisher,
+        edition_variant: row.edition_variant,
+        cover_url: row.cover_url,
+      },
+      owned_count: vols.length,
+      read_count: readCount,
+      next_volume: { id: nextUnread.id, number: nextUnread.number },
+      _activity: lastActivity,
+    });
+  }
+
+  items.sort((a, b) => b._activity - a._activity);
+  return items.map(({ _activity, ...rest }) => rest);
 }
 
 export async function getLibraryStats(): Promise<LibraryStats> {

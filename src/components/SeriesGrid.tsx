@@ -6,7 +6,13 @@ import type { SeriesCardData } from "@/lib/types";
 
 type ReadFilter = "all" | "any-unread" | "all-read";
 
-export function SeriesGrid({ series }: { series: SeriesCardData[] }) {
+export function SeriesGrid({
+  series,
+  afterFilters,
+}: {
+  series: SeriesCardData[];
+  afterFilters?: React.ReactNode;
+}) {
   const [query, setQuery] = useState("");
   const [publisher, setPublisher] = useState<string>("all");
   const [status, setStatus] = useState<string>("all");
@@ -83,6 +89,7 @@ export function SeriesGrid({ series }: { series: SeriesCardData[] }) {
           </select>
         </label>
       </div>
+      {afterFilters}
       {filtered.length === 0 ? (
         <p className="text-sm text-muted">Aucune série ne correspond.</p>
       ) : (
