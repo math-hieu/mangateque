@@ -156,7 +156,7 @@ function ReadingCard({ item }: { item: ReadingItem }) {
           <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
             <path d="M3 7h10M9 3l4 4-4 4" />
           </svg>
-          {pending ? "Marquage…" : <>Marquer le tome&nbsp;{numStr}&nbsp;lu</>}
+          {pending ? "Marquage…" : `Marquer le tome ${numStr} lu`}
         </button>
       </div>
     </article>
