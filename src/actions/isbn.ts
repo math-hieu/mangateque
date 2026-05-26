@@ -6,33 +6,29 @@ import { parseVolumeTitle, normalizeForMatch } from "@/lib/isbn";
 import type { IsbnLookupResult } from "@/lib/types";
 import type { CreateSeriesInput } from "@/actions/series";
 
-type GoogleBooksResponse = {
-  totalItems: number;
-  items?: Array<{
-    volumeInfo: {
-      title?: string;
-      authors?: string[];
-      publisher?: string;
-      imageLinks?: { thumbnail?: string };
-    };
-  }>;
+type OpenLibraryBook = {
+  title?: string;
+  publishers?: Array<{ name: string }>;
+  cover?: { medium?: string; large?: string };
 };
 
-export async function lookupIsbn(isbn: string): Promise<IsbnLookupResult> {
-  const url = `https://www.googleapis.com/books/v1/volumes?q=isbn:${encodeURIComponent(isbn)}`;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error("Erreur lors de la recherche Google Books");
+type OpenLibraryResponse = Record<string, OpenLibraryBook>;
 
-  const data: GoogleBooksResponse = await res.json();
-  if (!data.items || data.items.length === 0) {
+export async function lookupIsbn(isbn: string): Promise<IsbnLookupResult> {
+  const url = `https://openlibrary.org/api/books?bibkeys=ISBN:${encodeURIComponent(isbn)}&format=json&jscmd=data`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error("Erreur lors de la recherche Open Library");
+
+  const data: OpenLibraryResponse = await res.json();
+  const book = data[`ISBN:${isbn}`];
+  if (!book) {
     throw new Error("Livre non trouvé pour cet ISBN");
   }
 
-  const info = data.items[0].volumeInfo;
-  const rawTitle = info.title ?? "Titre inconnu";
+  const rawTitle = book.title ?? "Titre inconnu";
   const parsed = parseVolumeTitle(rawTitle);
-  const coverUrl = info.imageLinks?.thumbnail?.replace("http://", "https://") ?? null;
-  const publisher = info.publisher ?? null;
+  const coverUrl = book.cover?.large ?? book.cover?.medium ?? null;
+  const publisher = book.publishers?.[0]?.name ?? null;
 
   const normalizedTitle = normalizeForMatch(parsed.seriesTitle);
   const { data: allSeries } = await supabase()
