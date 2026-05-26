@@ -27,8 +27,8 @@ export function Topbar() {
           </svg>
           Scanner
         </Link>
-        <Link href="/add" className="mt-cta">
-          ＋ Ajouter
+        <Link href="/add" className="mt-cta whitespace-nowrap">
+          ＋ <span className="hidden sm:inline">Ajouter</span>
         </Link>
       </div>
     </header>
