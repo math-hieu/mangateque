@@ -125,6 +125,20 @@ export function ScanResult({ data, onDone }: Props) {
         </div>
       )}
 
+      {/* Already owned warning */}
+      {data.alreadyOwned && useMatch && (
+        <div className="flex items-center gap-3 rounded-lg border border-[rgba(198,103,86,0.3)] bg-[rgba(198,103,86,0.06)] px-4 py-3">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--crimson)" strokeWidth="2">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
+          <p className="text-xs text-crimson">
+            Vous possédez déjà le tome {data.volumeNumber} de cette série.
+          </p>
+        </div>
+      )}
+
       {/* Volume number + Price */}
       <div className="grid grid-cols-2 gap-4">
         <div>

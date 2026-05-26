@@ -60,4 +60,5 @@ export type IsbnLookupResult = {
   coverUrl: string | null;
   publisher: string | null;
   matchedSeries: { id: string; title: string } | null;
+  alreadyOwned: boolean;
 };

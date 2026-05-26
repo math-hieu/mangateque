@@ -50,6 +50,17 @@ export async function lookupIsbn(isbn: string): Promise<IsbnLookupResult> {
     }
   }
 
+  let alreadyOwned = false;
+  if (matchedSeries && parsed.volumeNumber != null) {
+    const { data: existing } = await supabase()
+      .from("volumes")
+      .select("id")
+      .eq("series_id", matchedSeries.id)
+      .eq("number", parsed.volumeNumber)
+      .maybeSingle();
+    alreadyOwned = existing != null;
+  }
+
   return {
     isbn,
     rawTitle,
@@ -58,6 +69,7 @@ export async function lookupIsbn(isbn: string): Promise<IsbnLookupResult> {
     coverUrl,
     publisher,
     matchedSeries,
+    alreadyOwned,
   };
 }
 
