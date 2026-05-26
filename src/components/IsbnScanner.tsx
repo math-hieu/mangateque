@@ -15,6 +15,7 @@ export function IsbnScanner() {
   const [state, setState] = useState<ScanState>({ step: "scanning" });
   const scannerRef = useRef<HTMLDivElement>(null);
   const html5QrRef = useRef<any>(null);
+  const effectIdRef = useRef(0);
 
   const stopScanner = useCallback(async () => {
     try {
@@ -30,43 +31,54 @@ export function IsbnScanner() {
     html5QrRef.current = null;
   }, []);
 
-  const startScanner = useCallback(async () => {
-    if (!scannerRef.current) return;
-    await stopScanner();
-
-    const { Html5Qrcode } = await import("html5-qrcode");
-    const scanner = new Html5Qrcode("isbn-scanner-region");
-    html5QrRef.current = scanner;
-
-    await scanner.start(
-      { facingMode: "environment" },
-      {
-        fps: 10,
-        qrbox: { width: 280, height: 160 },
-      },
-      (decodedText: string) => {
-        const isbn = decodedText.replace(/[^0-9X]/gi, "");
-        if (isbn.length === 13 || isbn.length === 10) {
-          scanner.pause(true);
-          setState({ step: "loading", isbn });
-        }
-      },
-      () => {},
-    ).catch(() => {
-      setState({ step: "error", message: "Impossible d'accéder à la caméra. Vérifiez les permissions." });
-    });
-  }, [stopScanner]);
-
   useEffect(() => {
-    if (state.step === "scanning") {
-      startScanner();
-    }
+    if (state.step !== "scanning") return;
+
+    const id = ++effectIdRef.current;
+
+    (async () => {
+      if (!scannerRef.current || id !== effectIdRef.current) return;
+
+      const { Html5Qrcode } = await import("html5-qrcode");
+      if (id !== effectIdRef.current) return;
+
+      const scanner = new Html5Qrcode("isbn-scanner-region");
+      html5QrRef.current = scanner;
+
+      await scanner.start(
+        { facingMode: "environment" },
+        {
+          fps: 10,
+          qrbox: { width: 280, height: 160 },
+        },
+        (decodedText: string) => {
+          const isbn = decodedText.replace(/[^0-9X]/gi, "");
+          if (isbn.length === 13 || isbn.length === 10) {
+            scanner.pause(true);
+            setState({ step: "loading", isbn });
+          }
+        },
+        () => {},
+      ).catch(() => {
+        if (id === effectIdRef.current) {
+          setState({ step: "error", message: "Impossible d'accéder à la caméra. Vérifiez les permissions." });
+        }
+      });
+    })();
+
     return () => {
-      if (state.step === "scanning") {
-        stopScanner();
-      }
+      effectIdRef.current++;
+      try {
+        const scanner = html5QrRef.current;
+        if (scanner) {
+          const s = scanner.getState?.();
+          if (s === 2 || s === 3) scanner.stop().then(() => scanner.clear?.()).catch(() => {});
+          else scanner.clear?.();
+        }
+      } catch {}
+      html5QrRef.current = null;
     };
-  }, [state.step, startScanner, stopScanner]);
+  }, [state.step]);
 
   useEffect(() => {
     if (state.step !== "loading") return;

@@ -6,29 +6,36 @@ import { parseVolumeTitle, normalizeForMatch } from "@/lib/isbn";
 import type { IsbnLookupResult } from "@/lib/types";
 import type { CreateSeriesInput } from "@/actions/series";
 
-type OpenLibraryBook = {
-  title?: string;
-  publishers?: Array<{ name: string }>;
-  cover?: { medium?: string; large?: string };
+type GoogleBooksResponse = {
+  totalItems: number;
+  items?: Array<{
+    volumeInfo: {
+      title?: string;
+      authors?: string[];
+      publisher?: string;
+      imageLinks?: { thumbnail?: string };
+    };
+  }>;
 };
 
-type OpenLibraryResponse = Record<string, OpenLibraryBook>;
-
 export async function lookupIsbn(isbn: string): Promise<IsbnLookupResult> {
-  const url = `https://openlibrary.org/api/books?bibkeys=ISBN:${encodeURIComponent(isbn)}&format=json&jscmd=data`;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error("Erreur lors de la recherche Open Library");
+  const apiKey = process.env.GOOGLE_BOOKS_API_KEY;
+  if (!apiKey) throw new Error("Clé API Google Books manquante");
 
-  const data: OpenLibraryResponse = await res.json();
-  const book = data[`ISBN:${isbn}`];
-  if (!book) {
+  const url = `https://www.googleapis.com/books/v1/volumes?q=isbn:${encodeURIComponent(isbn)}&key=${apiKey}`;
+  const res = await fetch(url, { cache: "no-store" });
+  if (!res.ok) throw new Error("Erreur lors de la recherche Google Books");
+
+  const data: GoogleBooksResponse = await res.json();
+  if (!data.items || data.items.length === 0) {
     throw new Error("Livre non trouvé pour cet ISBN");
   }
 
-  const rawTitle = book.title ?? "Titre inconnu";
+  const info = data.items[0].volumeInfo;
+  const rawTitle = info.title ?? "Titre inconnu";
   const parsed = parseVolumeTitle(rawTitle);
-  const coverUrl = book.cover?.large ?? book.cover?.medium ?? null;
-  const publisher = book.publishers?.[0]?.name ?? null;
+  const coverUrl = info.imageLinks?.thumbnail?.replace("http://", "https://") ?? null;
+  const publisher = info.publisher ?? null;
 
   const normalizedTitle = normalizeForMatch(parsed.seriesTitle);
   const { data: allSeries } = await supabase()

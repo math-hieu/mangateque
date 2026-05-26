@@ -89,7 +89,7 @@ export function SeriesGrid({
           </select>
         </label>
       </div>
-      {afterFilters}
+      {afterFilters && <div key="after-filters">{afterFilters}</div>}
       <h2 className="m-0 mb-3 flex items-baseline gap-2.5 px-0.5 text-[15px] font-medium tracking-tight text-cream">
         <span>Ma bibliothèque</span>
         <span className="mt-mono text-[11px] text-muted" style={{ letterSpacing: "0.06em" }}>

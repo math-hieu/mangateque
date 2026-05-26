@@ -5,7 +5,7 @@ export type ParsedTitle = {
 
 const PATTERNS: [RegExp, number, number][] = [
   [/^(.+?),?\s+Vol(?:ume)?\.?\s*(\d+)/i, 1, 2],
-  [/^(.+?)\s*[-–—]\s*[Tt]ome?\s*(\d+)/i, 1, 2],
+  [/^(.+?)\s*[-–—]?\s*[Tt]ome?\s+(\d+)/i, 1, 2],
   [/^(.+?)\s+[Tt]\.?\s*(\d+)\s*$/i, 1, 2],
   [/^(.+?)\s+(\d+)\s*$/i, 1, 2],
 ];
