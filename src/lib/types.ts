@@ -51,3 +51,14 @@ export type ReadingItem = {
     number: number;
   };
 };
+
+export type IsbnLookupResult = {
+  isbn: string;
+  rawTitle: string;
+  seriesTitle: string;
+  volumeNumber: number | null;
+  coverUrl: string | null;
+  publisher: string | null;
+  matchedSeries: { id: string; title: string } | null;
+  alreadyOwned: boolean;
+};
