@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { lookupIsbn } from "@/actions/isbn";
 import type { IsbnLookupResult } from "@/lib/types";
+import { ScanResult } from "./ScanResult";
 
 type ScanState =
   | { step: "scanning" }
@@ -115,17 +116,8 @@ export function IsbnScanner() {
       )}
 
       {state.step === "result" && (
-        <ScanResultPlaceholder data={state.data} onDone={reset} />
+        <ScanResult data={state.data} onDone={reset} />
       )}
-    </div>
-  );
-}
-
-function ScanResultPlaceholder({ data, onDone }: { data: IsbnLookupResult; onDone: () => void }) {
-  return (
-    <div className="space-y-2 text-center">
-      <p className="text-sm text-cream">{data.rawTitle}</p>
-      <button className="mt-ghost" onClick={onDone}>Scanner suivant</button>
     </div>
   );
 }
