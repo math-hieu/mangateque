@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { supabase } from "@/lib/supabase";
 import { parseVolumeTitle, normalizeForMatch } from "@/lib/isbn";
+import { searchAniListMedia } from "@/lib/anilist";
 import type { IsbnLookupResult } from "@/lib/types";
 import type { CreateSeriesInput } from "@/actions/series";
 
@@ -34,8 +35,15 @@ export async function lookupIsbn(isbn: string): Promise<IsbnLookupResult> {
   const info = data.items[0].volumeInfo;
   const rawTitle = info.title ?? "Titre inconnu";
   const parsed = parseVolumeTitle(rawTitle);
-  const coverUrl = info.imageLinks?.thumbnail?.replace("http://", "https://") ?? null;
+  let coverUrl = info.imageLinks?.thumbnail?.replace("http://", "https://") ?? null;
   const publisher = info.publisher ?? null;
+
+  if (!coverUrl) {
+    try {
+      const aniResults = await searchAniListMedia(parsed.seriesTitle);
+      if (aniResults.length > 0) coverUrl = aniResults[0].coverUrl;
+    } catch {}
+  }
 
   const normalizedTitle = normalizeForMatch(parsed.seriesTitle);
   const { data: allSeries } = await supabase()
