@@ -29,7 +29,10 @@ export async function addVolume(seriesId: string, number: number, price: number)
 export async function toggleVolumeRead(volumeId: string, isRead: boolean) {
   const { data, error } = await supabase()
     .from("volumes")
-    .update({ is_read: isRead })
+    .update({
+      is_read: isRead,
+      read_at: isRead ? new Date().toISOString() : null,
+    })
     .eq("id", volumeId)
     .select("series_id")
     .single();
