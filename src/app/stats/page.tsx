@@ -9,8 +9,9 @@ export default async function StatsPage() {
   return (
     <div className="mb-8">
       <StatsCharts
+        readPerWeek={stats.readPerWeek}
         readPerMonth={stats.readPerMonth}
-        cumulativeSpend={stats.cumulativeSpend}
+        spendPerMonth={stats.spendPerMonth}
         purchasesPerMonth={stats.purchasesPerMonth}
       />
     </div>

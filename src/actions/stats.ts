@@ -3,17 +3,31 @@
 import { supabase } from "@/lib/supabase";
 
 export type MonthlyCount = { month: string; count: number };
-export type CumulativeSpend = { month: string; total: number };
+export type MonthlySpend = { month: string; total: number };
+export type WeeklyCount = { week: string; count: number };
 
 export type ReadingStats = {
+  readPerWeek: WeeklyCount[];
   readPerMonth: MonthlyCount[];
-  cumulativeSpend: CumulativeSpend[];
+  spendPerMonth: MonthlySpend[];
   purchasesPerMonth: MonthlyCount[];
 };
 
 function toMonthKey(dateStr: string): string {
   const d = new Date(dateStr);
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+}
+
+function toWeekKey(dateStr: string): string {
+  const d = new Date(dateStr);
+  const jan1 = new Date(d.getFullYear(), 0, 1);
+  const week = Math.ceil(((d.getTime() - jan1.getTime()) / 86400000 + jan1.getDay() + 1) / 7);
+  return `${d.getFullYear()}-W${String(week).padStart(2, "0")}`;
+}
+
+function formatWeekLabel(key: string): string {
+  const [year, w] = key.split("-W");
+  return `S${parseInt(w, 10)} ${year}`;
 }
 
 function formatMonthLabel(key: string): string {
@@ -30,6 +44,7 @@ export async function getReadingStats(): Promise<ReadingStats> {
   if (error) throw new Error(error.message);
 
   const readCounts = new Map<string, number>();
+  const readWeekCounts = new Map<string, number>();
   const purchaseCounts = new Map<string, number>();
   const spendByMonth = new Map<string, number>();
 
@@ -41,6 +56,8 @@ export async function getReadingStats(): Promise<ReadingStats> {
     if (v.read_at) {
       const readKey = toMonthKey(v.read_at);
       readCounts.set(readKey, (readCounts.get(readKey) ?? 0) + 1);
+      const weekKey = toWeekKey(v.read_at);
+      readWeekCounts.set(weekKey, (readWeekCounts.get(weekKey) ?? 0) + 1);
     }
   }
 
@@ -52,13 +69,16 @@ export async function getReadingStats(): Promise<ReadingStats> {
     .sort(([a], [b]) => a.localeCompare(b))
     .map(([key, count]) => ({ month: formatMonthLabel(key), count }));
 
-  let runningTotal = 0;
-  const cumulativeSpend: CumulativeSpend[] = [...spendByMonth.entries()]
+  const spendPerMonth: MonthlySpend[] = [...spendByMonth.entries()]
     .sort(([a], [b]) => a.localeCompare(b))
-    .map(([key, amount]) => {
-      runningTotal += amount;
-      return { month: formatMonthLabel(key), total: parseFloat(runningTotal.toFixed(2)) };
-    });
+    .map(([key, amount]) => ({ month: formatMonthLabel(key), total: parseFloat(amount.toFixed(2)) }));
 
-  return { readPerMonth, cumulativeSpend, purchasesPerMonth };
+  const now = new Date();
+  const readPerWeek: WeeklyCount[] = Array.from({ length: 4 }, (_, i) => {
+    const d = new Date(now.getTime() - (3 - i) * 7 * 86400000);
+    const key = toWeekKey(d.toISOString());
+    return { week: formatWeekLabel(key), count: readWeekCounts.get(key) ?? 0 };
+  });
+
+  return { readPerWeek, readPerMonth, spendPerMonth, purchasesPerMonth };
 }

@@ -23,6 +23,13 @@ export function Topbar() {
           </Link>
         </nav>
         <span className="flex-1" />
+        <Link href="/stats" className="mt-ghost text-xs sm:hidden">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M18 20V10" />
+            <path d="M12 20V4" />
+            <path d="M6 20v-6" />
+          </svg>
+        </Link>
         <Link href="/scan" className="mt-ghost text-xs">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M3 7V5a2 2 0 0 1 2-2h2" />

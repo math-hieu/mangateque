@@ -3,17 +3,17 @@
 import {
   BarChart,
   Bar,
-  AreaChart,
-  Area,
+  LineChart,
+  Line,
   XAxis,
   YAxis,
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import type { MonthlyCount, CumulativeSpend } from "@/actions/stats";
+import type { MonthlyCount, MonthlySpend, WeeklyCount } from "@/actions/stats";
 
 const AMBER = "#e8a14a";
-const AMBER_SOFT = "rgba(232, 161, 74, 0.14)";
+
 const MUTED = "#8a7e6a";
 const SURFACE_2 = "#2f271f";
 
@@ -55,16 +55,29 @@ function SpendTooltip({ active, payload, label }: { active?: boolean; payload?: 
 }
 
 export function StatsCharts({
+  readPerWeek,
   readPerMonth,
-  cumulativeSpend,
+  spendPerMonth,
   purchasesPerMonth,
 }: {
+  readPerWeek: WeeklyCount[];
   readPerMonth: MonthlyCount[];
-  cumulativeSpend: CumulativeSpend[];
+  spendPerMonth: MonthlySpend[];
   purchasesPerMonth: MonthlyCount[];
 }) {
   return (
     <div className="flex flex-col gap-4 sm:gap-6">
+      <ChartSection title="Lectures par semaine">
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={readPerWeek}>
+            <XAxis dataKey="week" {...axisProps} />
+            <YAxis allowDecimals={false} {...axisProps} width={30} />
+            <Tooltip content={<CustomTooltip />} cursor={{ stroke: MUTED, strokeDasharray: "4 4" }} />
+            <Line type="monotone" dataKey="count" stroke={AMBER} strokeWidth={2} dot={{ fill: AMBER, r: 3 }} />
+          </LineChart>
+        </ResponsiveContainer>
+      </ChartSection>
+
       <ChartSection title="Lectures par mois">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={readPerMonth}>
@@ -76,26 +89,14 @@ export function StatsCharts({
         </ResponsiveContainer>
       </ChartSection>
 
-      <ChartSection title="Dépenses cumulées">
+      <ChartSection title="Dépenses mensuelles">
         <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={cumulativeSpend}>
-            <defs>
-              <linearGradient id="amberGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor={AMBER} stopOpacity={0.3} />
-                <stop offset="100%" stopColor={AMBER} stopOpacity={0} />
-              </linearGradient>
-            </defs>
+          <BarChart data={spendPerMonth}>
             <XAxis dataKey="month" {...axisProps} />
             <YAxis {...axisProps} width={50} tickFormatter={(v: number) => `${v} €`} />
-            <Tooltip content={<SpendTooltip />} cursor={{ stroke: MUTED, strokeDasharray: "4 4" }} />
-            <Area
-              type="monotone"
-              dataKey="total"
-              stroke={AMBER}
-              strokeWidth={2}
-              fill="url(#amberGradient)"
-            />
-          </AreaChart>
+            <Tooltip content={<SpendTooltip />} cursor={{ fill: SURFACE_2 }} />
+            <Bar dataKey="total" fill={AMBER} radius={[4, 4, 0, 0]} />
+          </BarChart>
         </ResponsiveContainer>
       </ChartSection>
 
