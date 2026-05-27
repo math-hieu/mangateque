@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef, useState, useEffect } from "react";
 import {
   BarChart,
   Bar,
@@ -8,12 +9,10 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  ResponsiveContainer,
 } from "recharts";
 import type { MonthlyCount, MonthlySpend, WeeklyCount } from "@/actions/stats";
 
 const AMBER = "#e8a14a";
-
 const MUTED = "#8a7e6a";
 const SURFACE_2 = "#2f271f";
 
@@ -23,12 +22,29 @@ const axisProps = {
   tickLine: false,
 };
 
-function ChartSection({ title, children }: { title: string; children: React.ReactNode }) {
+function useContainerSize(ref: React.RefObject<HTMLDivElement | null>) {
+  const [size, setSize] = useState({ width: 0, height: 0 });
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const ro = new ResizeObserver(([entry]) => {
+      const { width, height } = entry.contentRect;
+      setSize({ width: Math.floor(width), height: Math.floor(height) });
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [ref]);
+  return size;
+}
+
+function ChartSection({ title, children }: { title: string; children: (size: { width: number; height: number }) => React.ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const size = useContainerSize(ref);
   return (
     <section className="rounded-[10px] border border-[var(--border)] bg-surface p-4 sm:p-6">
       <h2 className="mt-label mb-4">{title}</h2>
-      <div className="h-[220px] sm:h-[280px]">
-        {children}
+      <div ref={ref} className="h-[220px] sm:h-[280px]">
+        {size.width > 0 && size.height > 0 && children(size)}
       </div>
     </section>
   );
@@ -68,47 +84,47 @@ export function StatsCharts({
   return (
     <div className="flex flex-col gap-4 sm:gap-6">
       <ChartSection title="Lectures par semaine">
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={readPerWeek}>
+        {({ width, height }) => (
+          <LineChart width={width} height={height} data={readPerWeek}>
             <XAxis dataKey="week" {...axisProps} />
             <YAxis allowDecimals={false} {...axisProps} width={30} />
             <Tooltip content={<CustomTooltip />} cursor={{ stroke: MUTED, strokeDasharray: "4 4" }} />
             <Line type="monotone" dataKey="count" stroke={AMBER} strokeWidth={2} dot={{ fill: AMBER, r: 3 }} />
           </LineChart>
-        </ResponsiveContainer>
+        )}
       </ChartSection>
 
       <ChartSection title="Lectures par mois">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={readPerMonth}>
+        {({ width, height }) => (
+          <BarChart width={width} height={height} data={readPerMonth}>
             <XAxis dataKey="month" {...axisProps} />
             <YAxis allowDecimals={false} {...axisProps} width={30} />
             <Tooltip content={<CustomTooltip />} cursor={{ fill: SURFACE_2 }} />
             <Bar dataKey="count" fill={AMBER} radius={[4, 4, 0, 0]} />
           </BarChart>
-        </ResponsiveContainer>
+        )}
       </ChartSection>
 
       <ChartSection title="Dépenses mensuelles">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={spendPerMonth}>
+        {({ width, height }) => (
+          <BarChart width={width} height={height} data={spendPerMonth}>
             <XAxis dataKey="month" {...axisProps} />
             <YAxis {...axisProps} width={50} tickFormatter={(v: number) => `${v} €`} />
             <Tooltip content={<SpendTooltip />} cursor={{ fill: SURFACE_2 }} />
             <Bar dataKey="total" fill={AMBER} radius={[4, 4, 0, 0]} />
           </BarChart>
-        </ResponsiveContainer>
+        )}
       </ChartSection>
 
       <ChartSection title="Achats par mois">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={purchasesPerMonth}>
+        {({ width, height }) => (
+          <BarChart width={width} height={height} data={purchasesPerMonth}>
             <XAxis dataKey="month" {...axisProps} />
             <YAxis allowDecimals={false} {...axisProps} width={30} />
             <Tooltip content={<CustomTooltip />} cursor={{ fill: SURFACE_2 }} />
             <Bar dataKey="count" fill={AMBER} radius={[4, 4, 0, 0]} />
           </BarChart>
-        </ResponsiveContainer>
+        )}
       </ChartSection>
     </div>
   );
