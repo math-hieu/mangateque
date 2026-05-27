@@ -18,6 +18,7 @@ export type Volume = {
   number: number;
   price: number;
   is_read: boolean;
+  read_at: string | null;
   created_at: string;
 };
 
