@@ -15,6 +15,12 @@ export function Topbar() {
           >
             Bibliothèque
           </Link>
+          <Link
+            href="/stats"
+            className="inline-flex items-center gap-1.5 rounded-md border border-[var(--border-2)] px-[11px] py-[7px] text-xs text-cream"
+          >
+            Stats
+          </Link>
         </nav>
         <span className="flex-1" />
         <Link href="/scan" className="mt-ghost text-xs">
