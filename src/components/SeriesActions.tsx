@@ -54,7 +54,18 @@ export function SeriesActions({ series }: { series: Series }) {
   function retryFetch() {
     setCandidates(null);
     setCoverError(null);
-    openPicker();
+    setCoverLoading(true);
+    searchGoogleBooksCovers(series.title)
+      .then((r) => {
+        setCandidates(r);
+        setCoverLoading(false);
+      })
+      .catch((e: any) => {
+        const msg = e?.message ?? "Erreur";
+        setCoverError(msg);
+        setCoverLoading(false);
+        toast.error(msg);
+      });
   }
 
   function save() {
@@ -183,6 +194,7 @@ export function SeriesActions({ series }: { series: Series }) {
                     <button
                       key={c.id}
                       type="button"
+                      title={c.publisher ? `${c.title} — ${c.publisher}` : c.title}
                       onClick={() => {
                         setCoverUrl(c.thumbnail);
                         setMode("edit");
