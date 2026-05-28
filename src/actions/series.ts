@@ -152,12 +152,11 @@ export async function searchGoogleBooksCovers(seriesTitle: string): Promise<Cove
   if (!apiKey) throw new Error("Clé API Google Books manquante");
 
   const safeTitle = seriesTitle.replace(/"/g, "");
-  const q = `intitle:"${safeTitle}" tome 1`;
+  const q = `"${safeTitle}" tome 1`;
   const url =
     `https://www.googleapis.com/books/v1/volumes` +
     `?q=${encodeURIComponent(q)}` +
     `&langRestrict=fr` +
-    `&filter=ebooks` +
     `&maxResults=8` +
     `&key=${apiKey}`;
 
