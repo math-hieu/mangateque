@@ -15,6 +15,17 @@ export type CreateSeriesInput = {
   status: "ongoing" | "completed";
 };
 
+export type CoverCandidate = {
+  id: string;
+  thumbnail: string;
+  title: string;
+  publisher: string | null;
+};
+
+function cleanGoogleBooksThumbnail(url: string): string {
+  return url.replace(/^http:\/\//, "https://").replace(/&edge=curl/g, "");
+}
+
 export async function createSeries(input: CreateSeriesInput): Promise<string> {
   const { data, error } = await supabase()
     .from("series")
@@ -123,4 +134,48 @@ export async function getLibraryStats(): Promise<LibraryStats> {
     read_count: readCount,
     read_pct: vols.length === 0 ? 0 : Math.round((readCount / vols.length) * 100),
   };
+}
+
+type GoogleBooksSearchResponse = {
+  items?: Array<{
+    id: string;
+    volumeInfo: {
+      title?: string;
+      publisher?: string;
+      imageLinks?: { thumbnail?: string };
+    };
+  }>;
+};
+
+export async function searchGoogleBooksCovers(seriesTitle: string): Promise<CoverCandidate[]> {
+  const apiKey = process.env.GOOGLE_BOOKS_API_KEY;
+  if (!apiKey) throw new Error("Clé API Google Books manquante");
+
+  const q = `intitle:"${seriesTitle}" tome 1`;
+  const url =
+    `https://www.googleapis.com/books/v1/volumes` +
+    `?q=${encodeURIComponent(q)}` +
+    `&langRestrict=fr` +
+    `&filter=ebooks` +
+    `&maxResults=8` +
+    `&key=${apiKey}`;
+
+  const res = await fetch(url, { cache: "no-store" });
+  if (!res.ok) throw new Error("Erreur lors de la recherche Google Books");
+
+  const data: GoogleBooksSearchResponse = await res.json();
+  const items = data.items ?? [];
+
+  return items
+    .map((it) => {
+      const thumb = it.volumeInfo?.imageLinks?.thumbnail;
+      if (!thumb) return null;
+      return {
+        id: it.id,
+        thumbnail: cleanGoogleBooksThumbnail(thumb),
+        title: it.volumeInfo.title ?? "",
+        publisher: it.volumeInfo.publisher ?? null,
+      } satisfies CoverCandidate;
+    })
+    .filter((c): c is CoverCandidate => c !== null);
 }
