@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useTransition } from "react";
 import { toast } from "sonner";
 import { updateSeries, deleteSeries } from "@/actions/series";
 import type { Series } from "@/lib/types";
+import { Cover } from "./Cover";
 
 export function SeriesActions({ series }: { series: Series }) {
   const [open, setOpen] = useState(false);
@@ -12,6 +13,7 @@ export function SeriesActions({ series }: { series: Series }) {
   const [variant, setVariant] = useState(series.edition_variant ?? "");
   const [status, setStatus] = useState(series.status);
   const [total, setTotal] = useState(series.total_volumes != null ? String(series.total_volumes) : "");
+  const [coverUrl, setCoverUrl] = useState<string | null>(series.cover_url);
   const [pending, start] = useTransition();
   const dialogRef = useRef<HTMLDialogElement>(null);
 
@@ -19,6 +21,11 @@ export function SeriesActions({ series }: { series: Series }) {
     if (open) dialogRef.current?.showModal();
     else dialogRef.current?.close();
   }, [open]);
+
+  function openDialog() {
+    setCoverUrl(series.cover_url);
+    setOpen(true);
+  }
 
   function save() {
     start(async () => {
@@ -29,6 +36,7 @@ export function SeriesActions({ series }: { series: Series }) {
           edition_variant: variant.trim() || null,
           status,
           total_volumes: total ? Number(total) : null,
+          cover_url: coverUrl,
         });
         setOpen(false);
       } catch (e: any) {
@@ -50,7 +58,7 @@ export function SeriesActions({ series }: { series: Series }) {
 
   return (
     <>
-      <button className="mt-ghost" onClick={() => setOpen(true)}>
+      <button className="mt-ghost" onClick={openDialog}>
         Modifier
       </button>
       <button className="mt-ghost mt-ghost-danger" onClick={remove} disabled={pending}>
@@ -64,6 +72,21 @@ export function SeriesActions({ series }: { series: Series }) {
       >
         <div className="w-[480px] max-w-[calc(100vw-2rem)] space-y-4 p-4 sm:p-6">
           <h2 className="text-lg font-medium tracking-tight">Modifier la série</h2>
+          <div className="flex items-center gap-3">
+            <div
+              className="shrink-0 w-20 overflow-hidden rounded shadow-[0_8px_24px_-10px_rgba(0,0,0,0.6)]"
+              style={{ aspectRatio: "0.71" }}
+            >
+              <Cover url={coverUrl} seedKey={series.id} title={series.title} publisher={series.publisher} />
+            </div>
+            <button
+              className="mt-ghost"
+              type="button"
+              onClick={() => console.log("open picker (TODO Task 3)")}
+            >
+              Changer la couverture
+            </button>
+          </div>
           <div>
             <label className="mt-label mb-1.5 block">Titre</label>
             <input className="mt-input" value={title} onChange={(e) => setTitle(e.target.value)} />
