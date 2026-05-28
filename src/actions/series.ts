@@ -139,7 +139,7 @@ export async function getLibraryStats(): Promise<LibraryStats> {
 type GoogleBooksSearchResponse = {
   items?: Array<{
     id: string;
-    volumeInfo: {
+    volumeInfo?: {
       title?: string;
       publisher?: string;
       imageLinks?: { thumbnail?: string };
@@ -151,7 +151,8 @@ export async function searchGoogleBooksCovers(seriesTitle: string): Promise<Cove
   const apiKey = process.env.GOOGLE_BOOKS_API_KEY;
   if (!apiKey) throw new Error("Clé API Google Books manquante");
 
-  const q = `intitle:"${seriesTitle}" tome 1`;
+  const safeTitle = seriesTitle.replace(/"/g, "");
+  const q = `intitle:"${safeTitle}" tome 1`;
   const url =
     `https://www.googleapis.com/books/v1/volumes` +
     `?q=${encodeURIComponent(q)}` +
@@ -161,7 +162,7 @@ export async function searchGoogleBooksCovers(seriesTitle: string): Promise<Cove
     `&key=${apiKey}`;
 
   const res = await fetch(url, { cache: "no-store" });
-  if (!res.ok) throw new Error("Erreur lors de la recherche Google Books");
+  if (!res.ok) throw new Error(`Erreur lors de la recherche Google Books (${res.status})`);
 
   const data: GoogleBooksSearchResponse = await res.json();
   const items = data.items ?? [];
@@ -173,8 +174,8 @@ export async function searchGoogleBooksCovers(seriesTitle: string): Promise<Cove
       return {
         id: it.id,
         thumbnail: cleanGoogleBooksThumbnail(thumb),
-        title: it.volumeInfo.title ?? "",
-        publisher: it.volumeInfo.publisher ?? null,
+        title: it.volumeInfo?.title ?? "",
+        publisher: it.volumeInfo?.publisher ?? null,
       } satisfies CoverCandidate;
     })
     .filter((c): c is CoverCandidate => c !== null);
