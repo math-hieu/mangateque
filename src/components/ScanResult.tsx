@@ -36,15 +36,16 @@ export function ScanResult({ data, onDone }: Props) {
             toast.error("Titre et éditeur sont obligatoires");
             return;
           }
+          const ani = data.anilistMatch;
           const seriesId = await createSeriesAndAddVolume(
             {
-              anilist_id: null,
+              anilist_id: ani?.id ?? null,
               title: title.trim(),
-              cover_url: data.coverUrl,
+              cover_url: ani?.coverUrl ?? data.coverUrl,
               publisher: publisher.trim(),
               edition_variant: null,
-              total_volumes: null,
-              status: "ongoing",
+              total_volumes: ani?.volumes ?? null,
+              status: ani?.status ?? "ongoing",
             },
             vol,
             p,
@@ -114,6 +115,21 @@ export function ScanResult({ data, onDone }: Props) {
       ) : (
         <div className="space-y-3">
           <p className="mt-mono text-[10px] text-amber" style={{ letterSpacing: "0.06em" }}>NOUVELLE SÉRIE</p>
+          {data.anilistMatch && (
+            <div className="flex items-center gap-3 rounded-lg border border-[var(--border)] bg-surface-2 px-3 py-2">
+              {data.anilistMatch.coverUrl && (
+                <img src={data.anilistMatch.coverUrl} alt="" className="h-12 w-auto rounded object-cover" />
+              )}
+              <div className="min-w-0 flex-1">
+                <p className="text-xs text-cream">{data.anilistMatch.title}</p>
+                <p className="mt-mono text-[10px] text-muted" style={{ letterSpacing: "0.06em" }}>
+                  {data.anilistMatch.volumes ? `${data.anilistMatch.volumes} tomes` : "Tomes inconnus"}
+                  {" · "}
+                  {data.anilistMatch.status === "completed" ? "Terminé" : "En cours"}
+                </p>
+              </div>
+            </div>
+          )}
           <div>
             <label className="mt-label mb-1.5 block">Titre de la série</label>
             <input className="mt-input" value={title} onChange={(e) => setTitle(e.target.value)} required />

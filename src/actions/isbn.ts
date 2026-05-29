@@ -38,12 +38,14 @@ export async function lookupIsbn(isbn: string): Promise<IsbnLookupResult> {
   let coverUrl = info.imageLinks?.thumbnail?.replace("http://", "https://") ?? null;
   const publisher = info.publisher ?? null;
 
-  if (!coverUrl) {
-    try {
-      const aniResults = await searchAniListMedia(parsed.seriesTitle);
-      if (aniResults.length > 0) coverUrl = aniResults[0].coverUrl;
-    } catch {}
-  }
+  let anilistMatch: IsbnLookupResult["anilistMatch"] = null;
+  try {
+    const aniResults = await searchAniListMedia(parsed.seriesTitle);
+    if (aniResults.length > 0) {
+      anilistMatch = aniResults[0];
+      if (!coverUrl) coverUrl = anilistMatch.coverUrl;
+    }
+  } catch {}
 
   const normalizedTitle = normalizeForMatch(parsed.seriesTitle);
   const { data: allSeries } = await supabase()
@@ -78,6 +80,7 @@ export async function lookupIsbn(isbn: string): Promise<IsbnLookupResult> {
     publisher,
     matchedSeries,
     alreadyOwned,
+    anilistMatch,
   };
 }
 

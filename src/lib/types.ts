@@ -62,4 +62,11 @@ export type IsbnLookupResult = {
   publisher: string | null;
   matchedSeries: { id: string; title: string } | null;
   alreadyOwned: boolean;
+  anilistMatch: {
+    id: number;
+    title: string;
+    coverUrl: string | null;
+    volumes: number | null;
+    status: "ongoing" | "completed";
+  } | null;
 };
