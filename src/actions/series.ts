@@ -23,7 +23,10 @@ export type CoverCandidate = {
 };
 
 function cleanGoogleBooksThumbnail(url: string): string {
-  return url.replace(/^http:\/\//, "https://").replace(/&edge=curl/g, "");
+  return url
+    .replace(/^http:\/\//, "https://")
+    .replace(/&edge=curl/g, "")
+    .replace(/([?&])zoom=\d+/g, "$1zoom=3");
 }
 
 export async function createSeries(input: CreateSeriesInput): Promise<string> {
