@@ -109,7 +109,7 @@ export function SeriesActions({ series }: { series: Series }) {
       <dialog
         ref={dialogRef}
         onClose={() => setOpen(false)}
-        className="rounded-xl border border-[var(--border-2)] bg-surface p-0 text-cream backdrop:bg-black/60"
+        className="fixed inset-0 m-auto rounded-xl border border-[var(--border-2)] bg-surface p-0 text-cream backdrop:bg-black/60"
       >
         <div className="w-[480px] max-w-[calc(100vw-2rem)] space-y-4 p-4 sm:p-6">
           <h2 className="text-lg font-medium tracking-tight">
