@@ -9,8 +9,10 @@ import {
   XAxis,
   YAxis,
   Tooltip,
+  type MouseHandlerDataParam,
 } from "recharts";
 import type { MonthlyCount, MonthlySpend, WeeklyCount } from "@/actions/stats";
+import { ReadVolumesDialog, type ReadPeriod } from "./ReadVolumesDialog";
 
 const AMBER = "#e8a14a";
 const MUTED = "#8a7e6a";
@@ -81,22 +83,42 @@ export function StatsCharts({
   spendPerMonth: MonthlySpend[];
   purchasesPerMonth: MonthlyCount[];
 }) {
+  const [period, setPeriod] = useState<ReadPeriod | null>(null);
+
+  function openWeek(state: MouseHandlerDataParam) {
+    if (state.activeIndex == null) return;
+    const idx = Number(state.activeIndex);
+    if (!Number.isInteger(idx)) return;
+    const p = readPerWeek[idx];
+    if (!p?.key) return;
+    setPeriod({ type: "week", key: p.key, label: p.week });
+  }
+
+  function openMonth(state: MouseHandlerDataParam) {
+    if (state.activeIndex == null) return;
+    const idx = Number(state.activeIndex);
+    if (!Number.isInteger(idx)) return;
+    const p = readPerMonth[idx];
+    if (!p?.key) return;
+    setPeriod({ type: "month", key: p.key, label: p.month });
+  }
+
   return (
     <div className="flex flex-col gap-4 sm:gap-6">
       <ChartSection title="Lectures par semaine">
         {({ width, height }) => (
-          <LineChart width={width} height={height} data={readPerWeek}>
+          <LineChart width={width} height={height} data={readPerWeek} onClick={openWeek} style={{ cursor: "pointer" }}>
             <XAxis dataKey="week" {...axisProps} />
             <YAxis allowDecimals={false} {...axisProps} width={30} />
             <Tooltip content={<CustomTooltip />} cursor={{ stroke: MUTED, strokeDasharray: "4 4" }} />
-            <Line type="monotone" dataKey="count" stroke={AMBER} strokeWidth={2} dot={{ fill: AMBER, r: 3 }} />
+            <Line type="monotone" dataKey="count" stroke={AMBER} strokeWidth={2} dot={{ fill: AMBER, r: 3 }} activeDot={{ r: 5 }} />
           </LineChart>
         )}
       </ChartSection>
 
       <ChartSection title="Lectures par mois">
         {({ width, height }) => (
-          <BarChart width={width} height={height} data={readPerMonth}>
+          <BarChart width={width} height={height} data={readPerMonth} onClick={openMonth} style={{ cursor: "pointer" }}>
             <XAxis dataKey="month" {...axisProps} />
             <YAxis allowDecimals={false} {...axisProps} width={30} />
             <Tooltip content={<CustomTooltip />} cursor={{ fill: SURFACE_2 }} />
@@ -126,6 +148,8 @@ export function StatsCharts({
           </BarChart>
         )}
       </ChartSection>
+
+      <ReadVolumesDialog period={period} onClose={() => setPeriod(null)} />
     </div>
   );
 }
