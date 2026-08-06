@@ -92,11 +92,13 @@ export async function listInProgressSeries(): Promise<ReadingItem[]> {
   for (const row of data ?? []) {
     const vols = (row.volumes ?? []) as { id: string; number: number; is_read: boolean; created_at: string }[];
     if (vols.length === 0) continue;
-    const readCount = vols.filter((v) => v.is_read).length;
-    if (readCount === 0 || readCount === vols.length) continue;
+    const readNumbers = vols.filter((v) => v.is_read).map((v) => v.number);
+    if (readNumbers.length === 0) continue;
 
-    const nextUnread = [...vols].sort((a, b) => a.number - b.number).find((v) => !v.is_read);
-    if (!nextUnread) continue;
+    // La lecture ne peut continuer que si le tome suivant immédiatement le
+    // dernier tome lu est dans la collection.
+    const nextAfterLastRead = vols.find((v) => v.number === Math.max(...readNumbers) + 1);
+    if (!nextAfterLastRead) continue;
 
     const lastActivity = Math.max(...vols.map((v) => new Date(v.created_at).getTime()));
 
@@ -109,8 +111,8 @@ export async function listInProgressSeries(): Promise<ReadingItem[]> {
         cover_url: row.cover_url,
       },
       owned_count: vols.length,
-      read_count: readCount,
-      next_volume: { id: nextUnread.id, number: nextUnread.number },
+      read_count: readNumbers.length,
+      next_volume: { id: nextAfterLastRead.id, number: nextAfterLastRead.number },
       _activity: lastActivity,
     });
   }
