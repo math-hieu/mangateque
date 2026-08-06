@@ -85,12 +85,12 @@ export async function listSeriesForLibrary(): Promise<SeriesCardData[]> {
 export async function listInProgressSeries(): Promise<ReadingItem[]> {
   const { data, error } = await supabase()
     .from("series")
-    .select("id, title, publisher, edition_variant, cover_url, volumes(id, number, is_read, created_at)");
+    .select("id, title, publisher, edition_variant, cover_url, volumes(id, number, is_read, read_at, created_at)");
   if (error) throw new Error(error.message);
 
   const items: (ReadingItem & { _activity: number })[] = [];
   for (const row of data ?? []) {
-    const vols = (row.volumes ?? []) as { id: string; number: number; is_read: boolean; created_at: string }[];
+    const vols = (row.volumes ?? []) as { id: string; number: number; is_read: boolean; read_at: string | null; created_at: string }[];
     if (vols.length === 0) continue;
     const readNumbers = vols.filter((v) => v.is_read).map((v) => v.number);
     if (readNumbers.length === 0) continue;
@@ -100,7 +100,14 @@ export async function listInProgressSeries(): Promise<ReadingItem[]> {
     const nextAfterLastRead = vols.find((v) => v.number === Math.max(...readNumbers) + 1);
     if (!nextAfterLastRead) continue;
 
-    const lastActivity = Math.max(...vols.map((v) => new Date(v.created_at).getTime()));
+    // Tri sur la lecture la plus récente ; repli sur la date d'ajout pour les
+    // tomes marqués lus sans read_at.
+    const readDates = vols
+      .filter((v) => v.is_read && v.read_at)
+      .map((v) => new Date(v.read_at as string).getTime());
+    const lastActivity = readDates.length
+      ? Math.max(...readDates)
+      : Math.max(...vols.map((v) => new Date(v.created_at).getTime()));
 
     items.push({
       series: {
