@@ -35,6 +35,8 @@ export function SeriesForm({ initial }: { initial?: SeriesFormInitial }) {
           anilist_id: initial?.anilist_id ?? null,
           title: title.trim(),
           cover_url: coverUrl.trim() || null,
+          format: "physical",
+          platform: null,
           publisher: publisher.trim(),
           edition_variant: variant.trim() || null,
           total_volumes: totalVolumes ? Number(totalVolumes) : null,

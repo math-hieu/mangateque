@@ -14,7 +14,7 @@ export async function listVolumes(seriesId: string): Promise<Volume[]> {
   return data ?? [];
 }
 
-export async function addVolume(seriesId: string, number: number, price: number) {
+export async function addVolume(seriesId: string, number: number, price: number | null) {
   const { error } = await supabase().from("volumes").insert({
     series_id: seriesId,
     number,
@@ -24,6 +24,7 @@ export async function addVolume(seriesId: string, number: number, price: number)
   if (error) throw new Error(error.message);
   revalidatePath(`/series/${seriesId}`);
   revalidatePath("/");
+  revalidatePath("/numerique");
 }
 
 export async function toggleVolumeRead(volumeId: string, isRead: boolean) {
@@ -39,6 +40,7 @@ export async function toggleVolumeRead(volumeId: string, isRead: boolean) {
   if (error) throw new Error(error.message);
   revalidatePath(`/series/${data.series_id}`);
   revalidatePath("/");
+  revalidatePath("/numerique");
 }
 
 export async function updateVolumePrice(volumeId: string, price: number) {
@@ -64,4 +66,5 @@ export async function deleteVolume(volumeId: string) {
   if (error) throw new Error(error.message);
   revalidatePath(`/series/${data.series_id}`);
   revalidatePath("/");
+  revalidatePath("/numerique");
 }

@@ -1,7 +1,9 @@
 "use server";
 
 import { supabase } from "@/lib/supabase";
+import { issuerLabel } from "@/lib/series";
 import { groupReadingHistory, type ReadingGroup } from "@/lib/reading";
+import type { SeriesFormat } from "@/lib/types";
 
 /**
  * Historique de lecture, du plus récent au plus ancien. Les tomes marqués lus
@@ -11,7 +13,7 @@ import { groupReadingHistory, type ReadingGroup } from "@/lib/reading";
 export async function listReadingHistory(): Promise<ReadingGroup[]> {
   const { data, error } = await supabase()
     .from("volumes")
-    .select("series_id, number, read_at, series(title, publisher, edition_variant, cover_url)")
+    .select("series_id, number, read_at, series(title, publisher, platform, format, edition_variant, cover_url)")
     .not("read_at", "is", null)
     // Un marquage en masse pose le même timestamp sur tous les tomes : on
     // départage par série avant le numéro, sinon deux séries marquées lues
@@ -25,7 +27,11 @@ export async function listReadingHistory(): Promise<ReadingGroup[]> {
     (data ?? []).map((row: any) => ({
       series_id: row.series_id,
       series_title: row.series?.title ?? "",
-      series_publisher: row.series?.publisher ?? "",
+      series_issuer: issuerLabel({
+        publisher: row.series?.publisher ?? null,
+        platform: row.series?.platform ?? null,
+      }),
+      format: (row.series?.format ?? "physical") as SeriesFormat,
       edition_variant: row.series?.edition_variant ?? null,
       cover_url: row.series?.cover_url ?? null,
       number: row.number,

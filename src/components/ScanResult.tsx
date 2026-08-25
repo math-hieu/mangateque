@@ -42,6 +42,8 @@ export function ScanResult({ data, onDone }: Props) {
               anilist_id: ani?.id ?? null,
               title: title.trim(),
               cover_url: ani?.coverUrl ?? data.coverUrl,
+              format: "physical",
+              platform: null,
               publisher: publisher.trim(),
               edition_variant: null,
               total_volumes: ani?.volumes ?? null,

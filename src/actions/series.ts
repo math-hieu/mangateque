@@ -3,13 +3,15 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { supabase } from "@/lib/supabase";
-import type { Series, SeriesCardData, LibraryStats, ReadingItem } from "@/lib/types";
+import type { Series, SeriesCardData, LibraryStats, ReadingItem, SeriesFormat } from "@/lib/types";
 
 export type CreateSeriesInput = {
   anilist_id: number | null;
   title: string;
   cover_url: string | null;
-  publisher: string;
+  format: SeriesFormat;
+  publisher: string | null;
+  platform: string | null;
   edition_variant: string | null;
   total_volumes: number | null;
   status: "ongoing" | "completed";
@@ -37,6 +39,7 @@ export async function createSeries(input: CreateSeriesInput): Promise<string> {
     .single();
   if (error) throw new Error(error.message);
   revalidatePath("/");
+  revalidatePath("/numerique");
   redirect(`/series/${data.id}`);
 }
 
@@ -44,6 +47,7 @@ export async function updateSeries(id: string, input: Partial<CreateSeriesInput>
   const { error } = await supabase().from("series").update(input).eq("id", id);
   if (error) throw new Error(error.message);
   revalidatePath("/");
+  revalidatePath("/numerique");
   revalidatePath(`/series/${id}`);
 }
 
@@ -51,7 +55,21 @@ export async function deleteSeries(id: string) {
   const { error } = await supabase().from("series").delete().eq("id", id);
   if (error) throw new Error(error.message);
   revalidatePath("/");
+  revalidatePath("/numerique");
   redirect("/");
+}
+
+/** Plateformes déjà utilisées, pour l'autocomplétion du formulaire. */
+export async function listPlatforms(): Promise<string[]> {
+  const { data, error } = await supabase()
+    .from("series")
+    .select("platform")
+    .eq("format", "digital")
+    .not("platform", "is", null);
+  if (error) throw new Error(error.message);
+  return [...new Set((data ?? []).map((r: any) => r.platform as string))].sort((a, b) =>
+    a.localeCompare(b, "fr"),
+  );
 }
 
 export async function getSeries(id: string): Promise<Series | null> {
@@ -64,10 +82,13 @@ export async function getSeries(id: string): Promise<Series | null> {
   return data;
 }
 
-export async function listSeriesForLibrary(): Promise<SeriesCardData[]> {
+export async function listSeriesForLibrary(
+  format: SeriesFormat = "physical",
+): Promise<SeriesCardData[]> {
   const { data, error } = await supabase()
     .from("series")
     .select("*, volumes(price, is_read)")
+    .eq("format", format)
     .order("created_at", { ascending: false });
   if (error) throw new Error(error.message);
   return (data ?? []).map((row: any) => {
@@ -77,15 +98,18 @@ export async function listSeriesForLibrary(): Promise<SeriesCardData[]> {
       volumes: undefined,
       owned_count: vols.length,
       read_count: vols.filter((v: any) => v.is_read).length,
-      total_spent: vols.reduce((s: number, v: any) => s + Number(v.price), 0),
+      total_spent: vols.reduce((s: number, v: any) => s + Number(v.price ?? 0), 0),
     } as SeriesCardData;
   });
 }
 
-export async function listInProgressSeries(): Promise<ReadingItem[]> {
+export async function listInProgressSeries(
+  format: SeriesFormat = "physical",
+): Promise<ReadingItem[]> {
   const { data, error } = await supabase()
     .from("series")
-    .select("id, title, publisher, edition_variant, cover_url, volumes(id, number, is_read, read_at, created_at)");
+    .select("id, title, publisher, platform, format, edition_variant, cover_url, volumes(id, number, is_read, read_at, created_at)")
+    .eq("format", format);
   if (error) throw new Error(error.message);
 
   const items: (ReadingItem & { _activity: number })[] = [];
@@ -114,6 +138,8 @@ export async function listInProgressSeries(): Promise<ReadingItem[]> {
         id: row.id,
         title: row.title,
         publisher: row.publisher,
+        platform: row.platform,
+        format: row.format,
         edition_variant: row.edition_variant,
         cover_url: row.cover_url,
       },
@@ -131,12 +157,15 @@ export async function listInProgressSeries(): Promise<ReadingItem[]> {
 export async function getLibraryStats(): Promise<LibraryStats> {
   const sb = supabase();
   const [{ data: series }, { data: volumes }] = await Promise.all([
-    sb.from("series").select("status"),
-    sb.from("volumes").select("price, is_read"),
+    sb.from("series").select("status").eq("format", "physical"),
+    sb
+      .from("volumes")
+      .select("price, is_read, series!inner(format)")
+      .eq("series.format", "physical"),
   ]);
   const vols = volumes ?? [];
   const allSeries = series ?? [];
-  const totalSpent = vols.reduce((s, v: any) => s + Number(v.price), 0);
+  const totalSpent = vols.reduce((s, v: any) => s + Number(v.price ?? 0), 0);
   const readCount = vols.filter((v: any) => v.is_read).length;
   return {
     total_spent: totalSpent,

@@ -96,7 +96,7 @@ export function ReadVolumesDialog({
                     url={v.cover_url}
                     seedKey={v.series_id}
                     title={v.series_title}
-                    publisher={v.series_publisher}
+                    publisher={v.series_issuer}
                   />
                 </div>
                 <div className="min-w-0 flex-1">

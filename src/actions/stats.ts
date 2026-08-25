@@ -1,6 +1,8 @@
 "use server";
 
 import { supabase } from "@/lib/supabase";
+import { issuerLabel } from "@/lib/series";
+import type { SeriesFormat } from "@/lib/types";
 
 export type MonthlyCount = { key: string; month: string; count: number };
 export type MonthlySpend = { key: string; month: string; total: number };
@@ -10,7 +12,8 @@ export type ReadVolume = {
   id: string;
   series_id: string;
   series_title: string;
-  series_publisher: string;
+  series_issuer: string;
+  format: SeriesFormat;
   cover_url: string | null;
   number: number;
   read_at: string;
@@ -52,7 +55,7 @@ function formatMonthLabel(key: string): string {
 export async function getReadingStats(): Promise<ReadingStats> {
   const { data: volumes, error } = await supabase()
     .from("volumes")
-    .select("created_at, price, read_at")
+    .select("created_at, price, read_at, series!inner(format)")
     .order("created_at", { ascending: true });
   if (error) throw new Error(error.message);
 
@@ -62,10 +65,14 @@ export async function getReadingStats(): Promise<ReadingStats> {
   const spendByMonth = new Map<string, number>();
 
   for (const v of volumes ?? []) {
-    const purchaseKey = toMonthKey(v.created_at);
-    purchaseCounts.set(purchaseKey, (purchaseCounts.get(purchaseKey) ?? 0) + 1);
-    spendByMonth.set(purchaseKey, (spendByMonth.get(purchaseKey) ?? 0) + v.price);
+    // Achats et dépenses restent une affaire de bibliothèque physique.
+    if ((v as any).series?.format === "physical") {
+      const purchaseKey = toMonthKey(v.created_at);
+      purchaseCounts.set(purchaseKey, (purchaseCounts.get(purchaseKey) ?? 0) + 1);
+      spendByMonth.set(purchaseKey, (spendByMonth.get(purchaseKey) ?? 0) + Number(v.price ?? 0));
+    }
 
+    // Les lectures comptent quel que soit le support.
     if (v.read_at) {
       const readKey = toMonthKey(v.read_at);
       readCounts.set(readKey, (readCounts.get(readKey) ?? 0) + 1);
@@ -127,7 +134,7 @@ export async function getVolumesReadInPeriod(params: {
 
   const { data, error } = await supabase()
     .from("volumes")
-    .select("id, series_id, number, read_at, series(title, publisher, cover_url)")
+    .select("id, series_id, number, read_at, series(title, publisher, platform, format, cover_url)")
     .gte("read_at", start.toISOString())
     .lt("read_at", end.toISOString())
     .order("read_at", { ascending: true });
@@ -137,7 +144,11 @@ export async function getVolumesReadInPeriod(params: {
     id: row.id,
     series_id: row.series_id,
     series_title: row.series?.title ?? "",
-    series_publisher: row.series?.publisher ?? "",
+    series_issuer: issuerLabel({
+      publisher: row.series?.publisher ?? null,
+      platform: row.series?.platform ?? null,
+    }),
+    format: (row.series?.format ?? "physical") as SeriesFormat,
     cover_url: row.series?.cover_url ?? null,
     number: row.number,
     read_at: row.read_at,

@@ -50,7 +50,7 @@ export function ReadingHistoryList({ groups }: { groups: ReadingGroup[] }) {
                   url={group.cover_url}
                   seedKey={group.series_id}
                   title={group.series_title}
-                  publisher={group.series_publisher}
+                  publisher={group.series_issuer}
                 />
               </div>
             </div>
@@ -61,7 +61,7 @@ export function ReadingHistoryList({ groups }: { groups: ReadingGroup[] }) {
               </h3>
 
               <span className="mt-mono truncate text-[10px] text-muted" style={{ letterSpacing: "0.06em" }}>
-                {group.series_publisher.toUpperCase()}
+                {group.series_issuer.toUpperCase()}
                 {group.edition_variant ? ` · ${group.edition_variant.toUpperCase()}` : ""}
               </span>
 

@@ -50,7 +50,8 @@ export async function lookupIsbn(isbn: string): Promise<IsbnLookupResult> {
   const normalizedTitle = normalizeForMatch(parsed.seriesTitle);
   const { data: allSeries } = await supabase()
     .from("series")
-    .select("id, title");
+    .select("id, title")
+    .eq("format", "physical");
 
   let matchedSeries: { id: string; title: string } | null = null;
   for (const s of allSeries ?? []) {

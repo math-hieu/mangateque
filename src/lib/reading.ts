@@ -1,7 +1,10 @@
+import type { SeriesFormat } from "./types";
+
 export type ReadVolumeEntry = {
   series_id: string;
   series_title: string;
-  series_publisher: string;
+  series_issuer: string;
+  format: SeriesFormat;
   edition_variant: string | null;
   cover_url: string | null;
   number: number;
@@ -11,7 +14,8 @@ export type ReadVolumeEntry = {
 export type ReadingGroup = {
   series_id: string;
   series_title: string;
-  series_publisher: string;
+  series_issuer: string;
+  format: SeriesFormat;
   edition_variant: string | null;
   cover_url: string | null;
   from_volume: number;
@@ -44,7 +48,8 @@ export function groupReadingHistory(entries: ReadVolumeEntry[]): ReadingGroup[] 
     groups.push({
       series_id: entry.series_id,
       series_title: entry.series_title,
-      series_publisher: entry.series_publisher,
+      series_issuer: entry.series_issuer,
+      format: entry.format,
       edition_variant: entry.edition_variant,
       cover_url: entry.cover_url,
       from_volume: entry.number,
