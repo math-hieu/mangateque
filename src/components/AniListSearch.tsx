@@ -3,9 +3,16 @@
 import { useEffect, useState } from "react";
 import { searchAniListAction } from "@/actions/anilist";
 import type { AniListResult } from "@/lib/anilist";
+import type { SeriesFormat } from "@/lib/types";
 import { SeriesForm } from "./SeriesForm";
 
-export function AniListSearch() {
+export function AniListSearch({
+  defaultFormat,
+  platforms,
+}: {
+  defaultFormat?: SeriesFormat;
+  platforms: string[];
+}) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<AniListResult[]>([]);
   const [selected, setSelected] = useState<AniListResult | null>(null);
@@ -59,6 +66,8 @@ export function AniListSearch() {
                 }
               : undefined
           }
+          defaultFormat={defaultFormat}
+          platforms={platforms}
         />
       </div>
     );
