@@ -55,7 +55,7 @@ export function SeriesGrid({
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Rechercher un titre…"
-            className="flex-1 bg-transparent text-[13px] text-cream outline-none placeholder:text-muted"
+            className="min-w-0 flex-1 bg-transparent text-[13px] text-cream outline-none placeholder:text-muted"
           />
         </div>
         <label className={filterBtn}>

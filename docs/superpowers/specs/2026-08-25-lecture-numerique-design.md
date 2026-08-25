@@ -87,7 +87,7 @@ de `/series/[id]`.
 
 ## 3. Requêtes
 
-Trois groupes, couvrant les 20 accès base recensés par
+Trois groupes, couvrant les 22 accès base recensés par
 `grep -rn '\.from("series")\|\.from("volumes")' src/`.
 
 ### 3.1 Exclure le numérique
@@ -209,8 +209,8 @@ formulaire d'édition, avec les mêmes règles de champs que `SeriesForm`.
 
 `ReadingHistoryList` affiche un badge `NUMÉRIQUE` à côté du titre des groupes dont
 `format === "digital"` (même traitement typographique que les autres méta-libellés mono
-de la page : `text-[10px]`, `letterSpacing: 0.06em`). La ligne d'émetteur affiche
-`issuerLabel(group)`.
+de la page, à ceci près que le badge porte une bordure et un padding : `text-[9px]`,
+`letterSpacing: 0.06em`). La ligne d'émetteur affiche `issuerLabel(group)`.
 
 ### 5.7 `/stats`
 

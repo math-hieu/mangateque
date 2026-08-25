@@ -65,8 +65,14 @@ export async function getReadingStats(): Promise<ReadingStats> {
   const spendByMonth = new Map<string, number>();
 
   for (const v of volumes ?? []) {
+    // Filtre fait en JS (pas dans la requête, contrairement à getLibraryStats) car cette
+    // fonction a besoin des deux formats dans la même passe : les lectures comptent quel
+    // que soit le support, seuls les achats sont physiques.
+    const fmt = (v as { series?: { format?: string } }).series?.format;
+    if (fmt !== "physical" && fmt !== "digital") throw new Error("format de série illisible dans getReadingStats");
+
     // Achats et dépenses restent une affaire de bibliothèque physique.
-    if ((v as any).series?.format === "physical") {
+    if (fmt === "physical") {
       const purchaseKey = toMonthKey(v.created_at);
       purchaseCounts.set(purchaseKey, (purchaseCounts.get(purchaseKey) ?? 0) + 1);
       spendByMonth.set(purchaseKey, (spendByMonth.get(purchaseKey) ?? 0) + Number(v.price ?? 0));
