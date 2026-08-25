@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { getVolumesReadInPeriod, type ReadVolume } from "@/actions/stats";
 import { Cover } from "./Cover";
+import { DigitalBadge } from "./DigitalBadge";
 
 export type ReadPeriod = {
   type: "week" | "month";
@@ -100,7 +101,10 @@ export function ReadVolumesDialog({
                   />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-medium">{v.series_title}</p>
+                  <div className="flex items-baseline gap-2">
+                    <p className="truncate text-sm font-medium">{v.series_title}</p>
+                    {v.format === "digital" && <DigitalBadge />}
+                  </div>
                   <p className="mt-tabular text-xs text-cream-mute">
                     Tome {v.number} · {DATE_FORMAT.format(new Date(v.read_at))}
                   </p>

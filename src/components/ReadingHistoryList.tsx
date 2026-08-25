@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Cover } from "./Cover";
+import { DigitalBadge } from "./DigitalBadge";
 import type { ReadingGroup } from "@/lib/reading";
 
 const FULL_DATE = new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "long", year: "numeric" });
@@ -56,9 +57,12 @@ export function ReadingHistoryList({ groups }: { groups: ReadingGroup[] }) {
             </div>
 
             <div className="flex min-w-0 flex-col gap-1 px-3.5 py-3">
-              <h3 className="truncate text-[14px] font-medium tracking-tight text-cream">
-                {group.series_title}
-              </h3>
+              <div className="flex items-baseline gap-2">
+                <h3 className="truncate text-[14px] font-medium tracking-tight text-cream">
+                  {group.series_title}
+                </h3>
+                {group.format === "digital" && <DigitalBadge />}
+              </div>
 
               <span className="mt-mono truncate text-[10px] text-muted" style={{ letterSpacing: "0.06em" }}>
                 {group.series_issuer.toUpperCase()}
