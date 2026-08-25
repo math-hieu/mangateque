@@ -72,6 +72,18 @@ export function SeriesActions({ series }: { series: Series }) {
   }
 
   function save() {
+    if (!title.trim()) {
+      toast.error("Le titre est obligatoire");
+      return;
+    }
+    if (!isDigital && !publisher.trim()) {
+      toast.error("L'éditeur est obligatoire pour un livre physique");
+      return;
+    }
+    if (isDigital && !platform.trim()) {
+      toast.error("La plateforme est obligatoire pour un livre numérique");
+      return;
+    }
     start(async () => {
       try {
         await updateSeries(series.id, {
