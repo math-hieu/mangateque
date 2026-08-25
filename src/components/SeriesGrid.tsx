@@ -10,17 +10,21 @@ type ReadFilter = "all" | "any-unread" | "all-read";
 export function SeriesGrid({
   series,
   afterFilters,
+  heading = "Ma bibliothèque",
+  issuerFilterLabel = "Éditeur",
 }: {
   series: SeriesCardData[];
   afterFilters?: React.ReactNode;
+  heading?: string;
+  issuerFilterLabel?: string;
 }) {
   const [query, setQuery] = useState("");
-  const [publisher, setPublisher] = useState<string>("all");
+  const [issuer, setIssuer] = useState<string>("all");
   const [status, setStatus] = useState<string>("all");
   const [readFilter, setReadFilter] = useState<ReadFilter>("all");
 
-  const publishers = useMemo(
-    () => Array.from(new Set(series.map((s) => issuerLabel(s)))).sort(),
+  const issuers = useMemo(
+    () => Array.from(new Set(series.map((s) => issuerLabel(s)))).sort((a, b) => a.localeCompare(b, "fr")),
     [series]
   );
 
@@ -28,13 +32,13 @@ export function SeriesGrid({
     const q = query.trim().toLowerCase();
     return series.filter((s) => {
       if (q && !s.title.toLowerCase().includes(q)) return false;
-      if (publisher !== "all" && issuerLabel(s) !== publisher) return false;
+      if (issuer !== "all" && issuerLabel(s) !== issuer) return false;
       if (status !== "all" && s.status !== status) return false;
       if (readFilter === "any-unread" && s.owned_count > 0 && s.read_count === s.owned_count) return false;
       if (readFilter === "all-read" && (s.owned_count === 0 || s.read_count !== s.owned_count)) return false;
       return true;
     });
-  }, [series, query, publisher, status, readFilter]);
+  }, [series, query, issuer, status, readFilter]);
 
   const filterBtn =
     "inline-flex items-center gap-1.5 rounded-md border border-[var(--border)] bg-transparent px-[11px] py-[7px] text-xs text-cream-mute hover:text-cream";
@@ -55,14 +59,14 @@ export function SeriesGrid({
           />
         </div>
         <label className={filterBtn}>
-          Éditeur
+          {issuerFilterLabel}
           <select
-            value={publisher}
-            onChange={(e) => setPublisher(e.target.value)}
+            value={issuer}
+            onChange={(e) => setIssuer(e.target.value)}
             className="mt-mono bg-transparent text-cream outline-none"
           >
             <option value="all">· Tous</option>
-            {publishers.map((p) => <option key={p} value={p}>{p}</option>)}
+            {issuers.map((p) => <option key={p} value={p}>{p}</option>)}
           </select>
         </label>
         <label className={filterBtn}>
@@ -92,7 +96,7 @@ export function SeriesGrid({
       </div>
       {afterFilters && <div key="after-filters">{afterFilters}</div>}
       <h2 className="m-0 mb-3 flex items-baseline gap-2.5 px-0.5 text-[15px] font-medium tracking-tight text-cream">
-        <span>Ma bibliothèque</span>
+        <span>{heading}</span>
         <span className="mt-mono text-[11px] text-muted" style={{ letterSpacing: "0.06em" }}>
           {filtered.length}&nbsp;{filtered.length > 1 ? "SÉRIES" : "SÉRIE"}
         </span>

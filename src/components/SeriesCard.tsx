@@ -33,10 +33,14 @@ export function SeriesCard({ s }: { s: SeriesCardData }) {
           </span>
           <span className="mt-label">Lus</span>
           <span className="text-right text-[11px] text-cream" style={{ fontVariantNumeric: "tabular-nums" }}>{s.read_count}</span>
-          <span className="mt-label">Dépensé</span>
-          <span className="text-right text-[11px] text-cream" style={{ fontVariantNumeric: "tabular-nums" }}>
-            {s.total_spent.toFixed(2).replace(".", ",")} €
-          </span>
+          {s.format === "physical" && (
+            <>
+              <span className="mt-label">Dépensé</span>
+              <span className="text-right text-[11px] text-cream" style={{ fontVariantNumeric: "tabular-nums" }}>
+                {s.total_spent.toFixed(2).replace(".", ",")} €
+              </span>
+            </>
+          )}
         </div>
         <div className="mt-0.5 h-[3px] overflow-hidden rounded-sm bg-ink-2">
           <div className="h-full bg-amber" style={{ width: `${pct}%` }} />
