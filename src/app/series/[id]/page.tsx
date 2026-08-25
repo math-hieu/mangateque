@@ -14,7 +14,7 @@ export default async function SeriesPage({ params }: { params: Promise<{ id: str
   const volumes = await listVolumes(series.id);
 
   const ownedCount = volumes.length;
-  const totalSpent = volumes.reduce((s, v) => s + Number(v.price), 0);
+  const totalSpent = volumes.reduce((s, v) => s + Number(v.price ?? 0), 0);
   const readCount = volumes.filter((v) => v.is_read).length;
   const nextNumber = ownedCount === 0 ? 1 : Math.max(...volumes.map((v) => v.number)) + 1;
 
@@ -23,7 +23,7 @@ export default async function SeriesPage({ params }: { params: Promise<{ id: str
       <div className="mt-mono mb-4 truncate text-[10px] text-muted sm:text-[11px]" style={{ letterSpacing: "0.06em" }}>
         <Link href="/" className="hover:text-cream">BIBLIOTHÈQUE</Link>
         <span className="px-1.5 sm:px-2">›</span>
-        <span>{series.publisher.toUpperCase()}</span>
+        <span>{(series.publisher ?? series.platform ?? "").toUpperCase()}</span>
         <span className="px-1.5 sm:px-2">›</span>
         <span>{series.title.toUpperCase()}</span>
       </div>

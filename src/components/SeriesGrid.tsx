@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { SeriesCard } from "./SeriesCard";
+import { issuerLabel } from "@/lib/series";
 import type { SeriesCardData } from "@/lib/types";
 
 type ReadFilter = "all" | "any-unread" | "all-read";
@@ -19,7 +20,7 @@ export function SeriesGrid({
   const [readFilter, setReadFilter] = useState<ReadFilter>("all");
 
   const publishers = useMemo(
-    () => Array.from(new Set(series.map((s) => s.publisher))).sort(),
+    () => Array.from(new Set(series.map((s) => issuerLabel(s)))).sort(),
     [series]
   );
 
@@ -27,7 +28,7 @@ export function SeriesGrid({
     const q = query.trim().toLowerCase();
     return series.filter((s) => {
       if (q && !s.title.toLowerCase().includes(q)) return false;
-      if (publisher !== "all" && s.publisher !== publisher) return false;
+      if (publisher !== "all" && issuerLabel(s) !== publisher) return false;
       if (status !== "all" && s.status !== status) return false;
       if (readFilter === "any-unread" && s.owned_count > 0 && s.read_count === s.owned_count) return false;
       if (readFilter === "all-read" && (s.owned_count === 0 || s.read_count !== s.owned_count)) return false;

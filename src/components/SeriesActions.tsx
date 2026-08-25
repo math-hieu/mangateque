@@ -4,12 +4,13 @@ import { useEffect, useRef, useState, useTransition } from "react";
 import { toast } from "sonner";
 import { updateSeries, deleteSeries, searchGoogleBooksCovers, type CoverCandidate } from "@/actions/series";
 import type { Series } from "@/lib/types";
+import { issuerLabel } from "@/lib/series";
 import { Cover } from "./Cover";
 
 export function SeriesActions({ series }: { series: Series }) {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState(series.title);
-  const [publisher, setPublisher] = useState(series.publisher);
+  const [publisher, setPublisher] = useState(series.publisher ?? "");
   const [variant, setVariant] = useState(series.edition_variant ?? "");
   const [status, setStatus] = useState(series.status);
   const [total, setTotal] = useState(series.total_volumes != null ? String(series.total_volumes) : "");
@@ -123,7 +124,7 @@ export function SeriesActions({ series }: { series: Series }) {
                   className="shrink-0 w-20 overflow-hidden rounded shadow-[0_8px_24px_-10px_rgba(0,0,0,0.6)]"
                   style={{ aspectRatio: "0.71" }}
                 >
-                  <Cover url={coverUrl} seedKey={series.id} title={series.title} publisher={series.publisher} />
+                  <Cover url={coverUrl} seedKey={series.id} title={series.title} publisher={issuerLabel(series)} />
                 </div>
                 <button className="mt-ghost" type="button" onClick={openPicker}>
                   Changer la couverture

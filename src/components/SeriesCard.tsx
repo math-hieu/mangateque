@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Cover } from "./Cover";
 import { StatusTag } from "./StatusTag";
+import { issuerLabel } from "@/lib/series";
 import type { SeriesCardData } from "@/lib/types";
 
 export function SeriesCard({ s }: { s: SeriesCardData }) {
@@ -11,7 +12,7 @@ export function SeriesCard({ s }: { s: SeriesCardData }) {
       className="flex flex-col overflow-hidden rounded-[10px] border border-[var(--border)] bg-surface transition-colors hover:bg-surface-2"
     >
       <div className="border-b border-[var(--border)]" style={{ aspectRatio: "0.71" }}>
-        <Cover url={s.cover_url} seedKey={s.id} title={s.title} publisher={s.publisher} />
+        <Cover url={s.cover_url} seedKey={s.id} title={s.title} publisher={issuerLabel(s)} />
       </div>
       <div className="flex flex-col gap-2.5 px-3 pb-3.5 pt-3">
         <div className="flex flex-col items-start gap-1.5 sm:flex-row sm:items-baseline sm:justify-between">
@@ -19,7 +20,7 @@ export function SeriesCard({ s }: { s: SeriesCardData }) {
           <StatusTag status={s.status} compact />
         </div>
         <span className="mt-mono text-[10px] text-muted" style={{ letterSpacing: "0.06em" }}>
-          {s.publisher.toUpperCase()}
+          {issuerLabel(s).toUpperCase()}
           {s.edition_variant ? ` · ${s.edition_variant.toUpperCase()}` : ""}
         </span>
         <div

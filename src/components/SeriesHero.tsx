@@ -1,5 +1,6 @@
 import { Cover } from "./Cover";
 import { StatusTag } from "./StatusTag";
+import { issuerLabel } from "@/lib/series";
 import type { Series } from "@/lib/types";
 
 type Props = {
@@ -20,14 +21,14 @@ export function SeriesHero({ series, ownedCount, totalSpent, readCount, actions 
       {/* Mobile + tablet: cover and info live in a 2-col flex; on lg the wrapper becomes display:contents so they participate in the 3-col parent grid. */}
       <div className="flex gap-4 sm:gap-5 lg:contents">
         <div className="shrink-0 overflow-hidden rounded shadow-[0_12px_32px_-10px_rgba(0,0,0,0.6)] w-24 sm:w-40 lg:w-full" style={{ aspectRatio: "0.71" }}>
-          <Cover url={series.cover_url} seedKey={series.id} title={series.title} publisher={series.publisher} />
+          <Cover url={series.cover_url} seedKey={series.id} title={series.title} publisher={issuerLabel(series)} />
         </div>
 
         <div className="flex min-w-0 flex-1 flex-col gap-2.5 sm:gap-3.5 lg:flex-none">
           <h1 className="m-0 text-xl font-medium leading-tight tracking-tight sm:text-2xl lg:text-[32px] lg:leading-[1.1]">{series.title}</h1>
           <div className="grid gap-y-1.5 gap-x-3 text-[12px] sm:gap-y-2 sm:gap-x-4 sm:text-[13px] grid-cols-[88px_1fr] sm:grid-cols-[110px_1fr]">
             <span className="mt-label self-center">Éditeur</span>
-            <span className="text-cream truncate">{series.publisher}</span>
+            <span className="text-cream truncate">{issuerLabel(series)}</span>
             <span className="mt-label self-center">Variante</span>
             <span className="text-cream truncate">{series.edition_variant ?? "—"}</span>
             <span className="mt-label self-center">Statut</span>

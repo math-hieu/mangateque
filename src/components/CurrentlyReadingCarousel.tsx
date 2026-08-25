@@ -5,6 +5,7 @@ import Link from "next/link";
 import { toast } from "sonner";
 import { Cover } from "./Cover";
 import { toggleVolumeRead } from "@/actions/volumes";
+import { issuerLabel } from "@/lib/series";
 import type { ReadingItem } from "@/lib/types";
 
 type Props = { items: ReadingItem[] };
@@ -88,7 +89,7 @@ function ReadingCard({ item }: { item: ReadingItem }) {
             url={series.cover_url}
             seedKey={series.id}
             title={series.title}
-            publisher={series.publisher}
+            publisher={issuerLabel(series)}
           />
         </div>
 
@@ -117,7 +118,7 @@ function ReadingCard({ item }: { item: ReadingItem }) {
         </h3>
 
         <span className="mt-mono text-[10px] text-muted" style={{ letterSpacing: "0.06em" }}>
-          {series.publisher.toUpperCase()}
+          {issuerLabel(series).toUpperCase()}
           {series.edition_variant ? ` · ${series.edition_variant.toUpperCase()}` : ""}
         </span>
 

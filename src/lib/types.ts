@@ -1,11 +1,15 @@
 export type SeriesStatus = "ongoing" | "completed";
 
+export type SeriesFormat = "physical" | "digital";
+
 export type Series = {
   id: string;
   anilist_id: number | null;
   title: string;
   cover_url: string | null;
-  publisher: string;
+  publisher: string | null;
+  platform: string | null;
+  format: SeriesFormat;
   edition_variant: string | null;
   total_volumes: number | null;
   status: SeriesStatus;
@@ -16,7 +20,7 @@ export type Volume = {
   id: string;
   series_id: string;
   number: number;
-  price: number;
+  price: number | null;
   is_read: boolean;
   read_at: string | null;
   created_at: string;
@@ -41,7 +45,9 @@ export type ReadingItem = {
   series: {
     id: string;
     title: string;
-    publisher: string;
+    publisher: string | null;
+    platform: string | null;
+    format: SeriesFormat;
     edition_variant: string | null;
     cover_url: string | null;
   };

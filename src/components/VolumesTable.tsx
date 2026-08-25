@@ -180,7 +180,7 @@ export function VolumesTable({ volumes }: { volumes: Volume[] }) {
               </span>
             </span>
             <span className="hidden sm:inline" />
-            <EditablePrice volumeId={v.id} price={Number(v.price)} />
+            <EditablePrice volumeId={v.id} price={Number(v.price ?? 0)} />
             <span className="mt-mono hidden text-right text-xs text-muted sm:inline" style={{ fontVariantNumeric: "tabular-nums" }}>
               {new Date(v.created_at).toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit", year: "2-digit" })}
             </span>
