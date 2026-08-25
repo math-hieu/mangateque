@@ -32,7 +32,17 @@ export function SeriesForm({
     initial?.total_volumes != null ? String(initial.total_volumes) : ""
   );
   const [status, setStatus] = useState<"ongoing" | "completed">(initial?.status ?? "ongoing");
+  const [createVolumes, setCreateVolumes] = useState(true);
   const [pending, start] = useTransition();
+
+  // Le champ est libre : tant qu'il ne contient pas un entier positif, il n'y a
+  // rien à créer et la case n'a pas de sens.
+  const parsedTotal = Number(totalVolumes);
+  const volumeCount =
+    totalVolumes.trim() !== "" && Number.isInteger(parsedTotal) && parsedTotal > 0
+      ? parsedTotal
+      : null;
+  const willCreateVolumes = format === "digital" && createVolumes && volumeCount !== null;
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -60,7 +70,7 @@ export function SeriesForm({
           edition_variant: format === "physical" ? variant.trim() || null : null,
           total_volumes: totalVolumes ? Number(totalVolumes) : null,
           status,
-        });
+        }, willCreateVolumes ? volumeCount : undefined);
       } catch (e: any) {
         toast.error(e.message ?? "Erreur création");
       }
@@ -128,6 +138,22 @@ export function SeriesForm({
         <div>
           <label className="mt-label mb-1.5 block">Nb total de tomes (optionnel)</label>
           <input className="mt-input" type="number" min={1} value={totalVolumes} onChange={(e) => setTotalVolumes(e.target.value)} />
+          {format === "digital" && (
+            <label className="mt-2 flex items-center gap-2 text-[12px] text-cream-mute">
+              <input
+                type="checkbox"
+                checked={createVolumes}
+                disabled={volumeCount === null}
+                onChange={(e) => setCreateVolumes(e.target.checked)}
+                className="accent-[var(--amber)]"
+              />
+              {volumeCount === null
+                ? "Renseigne le nombre de tomes pour les créer d'office"
+                : volumeCount > 1
+                  ? `Créer les ${volumeCount} tomes`
+                  : "Créer le tome 1"}
+            </label>
+          )}
         </div>
         <div>
           <label className="mt-label mb-1.5 block">Statut</label>

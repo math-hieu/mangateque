@@ -31,13 +31,45 @@ function cleanGoogleBooksThumbnail(url: string): string {
     .replace(/([?&])zoom=\d+/g, "$1zoom=3");
 }
 
-export async function createSeries(input: CreateSeriesInput): Promise<string> {
-  const { data, error } = await supabase()
+/** Garde-fou : le compte vient d'AniList ou d'une saisie libre, pas d'une source sûre. */
+const MAX_AUTO_VOLUMES = 1000;
+
+/**
+ * `volumeCount` crée d'office les tomes 1 à N, sans prix : sur une plateforme
+ * numérique on a accès à toute la série, contrairement au physique où une ligne
+ * de tome signifie qu'on le possède.
+ */
+export async function createSeries(
+  input: CreateSeriesInput,
+  volumeCount?: number,
+): Promise<string> {
+  const sb = supabase();
+  const { data, error } = await sb
     .from("series")
     .insert(input)
     .select("id")
     .single();
   if (error) throw new Error(error.message);
+
+  if (volumeCount != null) {
+    if (!Number.isInteger(volumeCount) || volumeCount < 1 || volumeCount > MAX_AUTO_VOLUMES) {
+      throw new Error(`Nombre de tomes invalide (1 à ${MAX_AUTO_VOLUMES})`);
+    }
+    // Une seule insertion plutôt que N, et avant le redirect : celui-ci lève une
+    // exception de contrôle de flux qui couperait tout ce qui le suit.
+    const { error: volErr } = await sb.from("volumes").insert(
+      Array.from({ length: volumeCount }, (_, i) => ({
+        series_id: data.id,
+        number: i + 1,
+        price: null,
+        is_read: false,
+      })),
+    );
+    // La série reste créée : on la retrouve sans tomes, l'état habituel après
+    // n'importe quelle création. L'erreur remonte pour ne pas passer inaperçue.
+    if (volErr) throw new Error(volErr.message);
+  }
+
   revalidatePath("/");
   revalidatePath("/numerique");
   redirect(`/series/${data.id}`);
