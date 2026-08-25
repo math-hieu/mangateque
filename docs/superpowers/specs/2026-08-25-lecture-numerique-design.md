@@ -105,8 +105,13 @@ les appels existants de `/` restent corrects sans être modifiés.
 
 | Fonction | Fichier | Modification |
 |---|---|---|
-| `listReadingHistory` | `actions/reading.ts` | ajouter `format, platform` au `select` de la relation `series` ; les propager dans `ReadVolumeEntry` puis `ReadingGroup` |
-| `getVolumesReadInPeriod` | `actions/stats.ts` | ajouter `format, platform` au `select` ; les propager dans `ReadVolume` |
+| `listReadingHistory` | `actions/reading.ts` | ajouter `format, platform` au `select` de la relation `series` ; propager `format` dans `ReadVolumeEntry` puis `ReadingGroup` |
+| `getVolumesReadInPeriod` | `actions/stats.ts` | ajouter `format, platform` au `select` ; propager `format` dans `ReadVolume` |
+
+Dans ces deux DTO, le champ `series_publisher: string` est remplacé par
+`series_issuer: string`, calculé côté action via `issuerLabel`. Les composants de
+`/lectures` et la popin de `/stats` n'ont ainsi jamais à arbitrer entre éditeur et
+plateforme, et aucun `null` ne traverse la frontière.
 | `getReadingStats` | `actions/stats.ts` | `select("created_at, price, read_at, series!inner(format)")`. Dans la boucle : `read_at` compte toujours ; `price` et `created_at` ne comptent que si `format === "physical"` |
 
 `groupReadingHistory` (`lib/reading.ts`) n'a pas besoin de changer sa logique : elle
