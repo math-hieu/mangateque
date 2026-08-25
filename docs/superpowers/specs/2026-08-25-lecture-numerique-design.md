@@ -87,7 +87,8 @@ de `/series/[id]`.
 
 ## 3. Requêtes
 
-Deux groupes, exhaustifs — aucun autre site ne lit la base.
+Trois groupes, couvrant les 20 accès base recensés par
+`grep -rn '\.from("series")\|\.from("volumes")' src/`.
 
 ### 3.1 Exclure le numérique
 
@@ -117,6 +118,17 @@ plateforme, et aucun `null` ne traverse la frontière.
 `groupReadingHistory` (`lib/reading.ts`) n'a pas besoin de changer sa logique : elle
 regroupe déjà par `series_id`, donc un groupe est homogène en format par construction.
 Seuls les champs `format` et `platform` sont recopiés de l'entrée vers le groupe.
+
+### 3.3 Le flux de scan ISBN
+
+`src/actions/isbn.ts` lit et écrit la base, ce que la première rédaction de cette spec
+avait manqué. Un scan de code-barres porte par nature sur un livre papier : ce flux est
+donc **exclusivement physique**.
+
+| Fonction | Modification |
+|---|---|
+| `lookupIsbn` | La recherche de série existante par titre (`select("id, title")`) doit filtrer `.eq("format", "physical")`. Sans ce filtre, scanner le tome d'une série qu'on possède aussi en numérique rattacherait un tome payant à la série numérique |
+| `createSeriesAndAddVolume` | L'appelant (`ScanResult`) doit fournir `format: "physical"` et `platform: null` dans le `CreateSeriesInput` |
 
 ## 4. Écriture
 

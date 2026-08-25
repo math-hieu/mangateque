@@ -303,6 +303,8 @@ Toujours aucun changement de comportement visible : les valeurs par défaut `"ph
 - Modify: `src/actions/volumes.ts`
 - Modify: `src/actions/reading.ts`
 - Modify: `src/actions/stats.ts`
+- Modify: `src/actions/isbn.ts`
+- Modify: `src/components/ScanResult.tsx`
 - Modify: `src/lib/reading.ts`
 
 **Interfaces:**
@@ -631,7 +633,36 @@ export type ReadVolume = {
 
 Ajouter en tête du fichier : `import { issuerLabel } from "@/lib/series";` et `import type { SeriesFormat } from "@/lib/types";`.
 
-- [ ] **Step 7: Réparer les appelants**
+- [ ] **Step 7: Étanchéifier le flux de scan ISBN**
+
+Voir spec §3.3. Un scan de code-barres porte sur un livre papier : ce flux est
+exclusivement physique.
+
+Dans `src/actions/isbn.ts`, la recherche de série existante par titre doit ignorer le
+numérique — sans ce filtre, scanner le tome d'une série qu'on suit aussi en numérique
+rattacherait un tome payant à la série numérique :
+
+```ts
+  const { data: allSeries } = await supabase()
+    .from("series")
+    .select("id, title")
+    .eq("format", "physical");
+```
+
+Dans `src/components/ScanResult.tsx`, l'objet passé à `createSeriesAndAddVolume` doit
+satisfaire le nouveau `CreateSeriesInput`. Ajouter les deux champs à l'objet littéral
+existant (vers la ligne 45, à côté de `publisher: publisher.trim()`) :
+
+```tsx
+              format: "physical",
+              platform: null,
+```
+
+Les deux autres accès base de `isbn.ts` n'ont pas besoin de changer : la lecture des
+tomes est déjà bornée par `series_id`, et l'insertion de tome porte un prix saisi par
+l'utilisateur.
+
+- [ ] **Step 8: Réparer les appelants**
 
 `npx tsc --noEmit` signale les consommateurs des champs renommés :
 
@@ -639,17 +670,17 @@ Ajouter en tête du fichier : `import { issuerLabel } from "@/lib/series";` et `
 - `src/components/ReadVolumesDialog.tsx` : `v.series_publisher` → `v.series_issuer` dans la prop `publisher` de `Cover`.
 - `src/components/SeriesForm.tsx` : l'appel à `createSeries` doit désormais fournir `format` et `platform`. Passer provisoirement `format: "physical"` et `platform: null` — la tâche 4 branche le vrai sélecteur.
 
-- [ ] **Step 8: Vérifier le typecheck**
+- [ ] **Step 9: Vérifier le typecheck**
 
 Run: `npx tsc --noEmit`
 Expected: PASS, aucune sortie.
 
-- [ ] **Step 9: Vérifier que les chiffres n'ont pas bougé**
+- [ ] **Step 10: Vérifier que les chiffres n'ont pas bougé**
 
 Run: `npm run dev`
 Ouvrir `/`, `/lectures` et `/stats`. Attendu : les trois pages s'affichent sans erreur, avec les mêmes valeurs qu'avant cette tâche — aucune série numérique n'existe encore, donc les filtres ajoutés ne peuvent rien écarter. La preuve d'étanchéité réelle est faite en tâche 8, une fois qu'il y a du numérique en base.
 
-- [ ] **Step 10: Commit**
+- [ ] **Step 11: Commit**
 
 ```bash
 git add src/actions src/lib src/components
@@ -1407,11 +1438,17 @@ Revenir sur `/stats`. Attendu : « dépenses par mois » et « achats par mois �
 
 Si une valeur de collection a bougé, le filtre de format manque dans la requête correspondante — revoir la tâche 3, étape 2 pour `StatsRow`, étape 6 pour les graphes.
 
-- [ ] **Step 5: Vérifier la conversion inverse n'est pas possible par accident**
+- [ ] **Step 5: Vérifier le scan ISBN**
+
+Si une de tes séries numériques existe aussi en papier chez toi, scanner un de ses tomes
+via `/scan`. Attendu : le scan propose de créer une **nouvelle** série physique, il ne
+propose pas de rattacher le tome à la série numérique existante.
+
+- [ ] **Step 6: Vérifier la conversion inverse n'est pas possible par accident**
 
 Ouvrir la série numérique, cliquer sur « Modifier ». Attendu : aucun champ « Éditeur » ni « Format » — le format n'est pas modifiable depuis l'interface, conformément au non-objectif de la spec.
 
-- [ ] **Step 6: Commit final**
+- [ ] **Step 7: Commit final**
 
 Aucun fichier à commiter si la recette passe. Si des ajustements ont été nécessaires :
 
