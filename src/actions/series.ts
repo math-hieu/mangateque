@@ -52,11 +52,13 @@ export async function updateSeries(id: string, input: Partial<CreateSeriesInput>
 }
 
 export async function deleteSeries(id: string) {
-  const { error } = await supabase().from("series").delete().eq("id", id);
+  const sb = supabase();
+  const { data: existing } = await sb.from("series").select("format").eq("id", id).maybeSingle();
+  const { error } = await sb.from("series").delete().eq("id", id);
   if (error) throw new Error(error.message);
   revalidatePath("/");
   revalidatePath("/numerique");
-  redirect("/");
+  redirect(existing?.format === "digital" ? "/numerique" : "/");
 }
 
 /** Plateformes déjà utilisées, pour l'autocomplétion du formulaire. */

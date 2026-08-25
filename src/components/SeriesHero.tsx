@@ -12,6 +12,7 @@ type Props = {
 };
 
 export function SeriesHero({ series, ownedCount, totalSpent, readCount, actions }: Props) {
+  const isDigital = series.format === "digital";
   const total = series.total_volumes;
   const readPct = ownedCount === 0 ? 0 : Math.round((readCount / ownedCount) * 100);
   const avg = ownedCount === 0 ? 0 : totalSpent / ownedCount;
@@ -27,10 +28,14 @@ export function SeriesHero({ series, ownedCount, totalSpent, readCount, actions 
         <div className="flex min-w-0 flex-1 flex-col gap-2.5 sm:gap-3.5 lg:flex-none">
           <h1 className="m-0 text-xl font-medium leading-tight tracking-tight sm:text-2xl lg:text-[32px] lg:leading-[1.1]">{series.title}</h1>
           <div className="grid gap-y-1.5 gap-x-3 text-[12px] sm:gap-y-2 sm:gap-x-4 sm:text-[13px] grid-cols-[88px_1fr] sm:grid-cols-[110px_1fr]">
-            <span className="mt-label self-center">Éditeur</span>
+            <span className="mt-label self-center">{isDigital ? "Plateforme" : "Éditeur"}</span>
             <span className="text-cream truncate">{issuerLabel(series)}</span>
-            <span className="mt-label self-center">Variante</span>
-            <span className="text-cream truncate">{series.edition_variant ?? "—"}</span>
+            {!isDigital && (
+              <>
+                <span className="mt-label self-center">Variante</span>
+                <span className="text-cream truncate">{series.edition_variant ?? "—"}</span>
+              </>
+            )}
             <span className="mt-label self-center">Statut</span>
             <span><StatusTag status={series.status} /></span>
             {series.anilist_id != null && (
@@ -49,15 +54,17 @@ export function SeriesHero({ series, ownedCount, totalSpent, readCount, actions 
       </div>
 
       <div className="flex flex-col gap-3 sm:gap-4">
-        <div className="rounded-lg border border-[var(--border)] bg-ink-2 px-4 py-3 sm:py-3.5">
-          <div className="mt-label">Total dépensé</div>
-          <div className="mt-tabular mt-1 text-2xl font-medium tracking-tight sm:text-[28px]">
-            {totalSpent.toFixed(2).replace(".", ",")} €
+        {!isDigital && (
+          <div className="rounded-lg border border-[var(--border)] bg-ink-2 px-4 py-3 sm:py-3.5">
+            <div className="mt-label">Total dépensé</div>
+            <div className="mt-tabular mt-1 text-2xl font-medium tracking-tight sm:text-[28px]">
+              {totalSpent.toFixed(2).replace(".", ",")} €
+            </div>
+            <div className="mt-1 text-[11px] text-muted">
+              moyenne {avg.toFixed(2).replace(".", ",")} € · {ownedCount} {ownedCount > 1 ? "tomes" : "tome"}
+            </div>
           </div>
-          <div className="mt-1 text-[11px] text-muted">
-            moyenne {avg.toFixed(2).replace(".", ",")} € · {ownedCount} {ownedCount > 1 ? "tomes" : "tome"}
-          </div>
-        </div>
+        )}
         <div className="grid grid-cols-2 gap-3 rounded-lg border border-[var(--border)] bg-ink-2 px-4 py-3 sm:py-3.5">
           <div>
             <div className="mt-label">Tomes</div>

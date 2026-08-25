@@ -6,12 +6,14 @@ import { SeriesHero } from "@/components/SeriesHero";
 import { VolumesTable } from "@/components/VolumesTable";
 import { QuickAddVolume } from "@/components/QuickAddVolume";
 import { SeriesActions } from "@/components/SeriesActions";
+import { issuerLabel } from "@/lib/series";
 
 export default async function SeriesPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const series = await getSeries(id);
   if (!series) notFound();
   const volumes = await listVolumes(series.id);
+  const isDigital = series.format === "digital";
 
   const ownedCount = volumes.length;
   const totalSpent = volumes.reduce((s, v) => s + Number(v.price ?? 0), 0);
@@ -21,9 +23,11 @@ export default async function SeriesPage({ params }: { params: Promise<{ id: str
   return (
     <div>
       <div className="mt-mono mb-4 truncate text-[10px] text-muted sm:text-[11px]" style={{ letterSpacing: "0.06em" }}>
-        <Link href="/" className="hover:text-cream">BIBLIOTHÈQUE</Link>
+        <Link href={isDigital ? "/numerique" : "/"} className="hover:text-cream">
+          {isDigital ? "NUMÉRIQUE" : "BIBLIOTHÈQUE"}
+        </Link>
         <span className="px-1.5 sm:px-2">›</span>
-        <span>{(series.publisher ?? series.platform ?? "").toUpperCase()}</span>
+        <span>{issuerLabel(series).toUpperCase()}</span>
         <span className="px-1.5 sm:px-2">›</span>
         <span>{series.title.toUpperCase()}</span>
       </div>
@@ -38,10 +42,10 @@ export default async function SeriesPage({ params }: { params: Promise<{ id: str
 
       <div className="overflow-hidden rounded-xl border border-[var(--border)] bg-surface">
         <div className="flex items-center justify-between border-b border-[var(--border)] px-3 py-3 sm:px-[18px] sm:py-3.5">
-          <div className="text-sm font-medium">Tomes possédés</div>
+          <div className="text-sm font-medium">{isDigital ? "Tomes lus" : "Tomes possédés"}</div>
         </div>
-        <VolumesTable volumes={volumes} />
-        <QuickAddVolume seriesId={series.id} suggestedNumber={nextNumber} />
+        <VolumesTable volumes={volumes} showPrice={!isDigital} />
+        <QuickAddVolume seriesId={series.id} suggestedNumber={nextNumber} showPrice={!isDigital} />
       </div>
     </div>
   );

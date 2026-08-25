@@ -96,12 +96,16 @@ function EditablePrice({ volumeId, price }: { volumeId: string; price: number })
   );
 }
 
-// Mobile: 4 columns (N°, Lu, Prix, Delete). Desktop: 6 columns (with empty spacer + Date).
-const GRID_CLS =
+// Mobile: 4 colonnes (N°, Lu, Prix, Suppr.) — 3 sans prix.
+// Desktop: 6 colonnes (avec espaceur et Ajouté le) — 5 sans prix.
+const GRID_WITH_PRICE =
   "grid grid-cols-[44px_72px_1fr_36px] sm:grid-cols-[60px_100px_1fr_120px_120px_40px]";
+const GRID_NO_PRICE =
+  "grid grid-cols-[44px_72px_1fr_36px] sm:grid-cols-[60px_100px_1fr_120px_40px]";
 
-export function VolumesTable({ volumes }: { volumes: Volume[] }) {
+export function VolumesTable({ volumes, showPrice }: { volumes: Volume[]; showPrice: boolean }) {
   const [, start] = useTransition();
+  const gridCls = showPrice ? GRID_WITH_PRICE : GRID_NO_PRICE;
 
   function toggle(v: Volume, next: boolean) {
     start(async () => {
@@ -127,13 +131,13 @@ export function VolumesTable({ volumes }: { volumes: Volume[] }) {
   return (
     <>
       <div
-        className={`mt-mono ${GRID_CLS} border-b border-[var(--border)] bg-ink-2 px-3 py-2.5 text-[10px] text-muted sm:px-[18px]`}
+        className={`mt-mono ${gridCls} border-b border-[var(--border)] bg-ink-2 px-3 py-2.5 text-[10px] text-muted sm:px-[18px]`}
         style={{ letterSpacing: "0.08em", textTransform: "uppercase" }}
       >
         <span>N°</span>
         <span>Lu</span>
         <span className="hidden sm:inline" />
-        <span className="text-right">Prix</span>
+        {showPrice && <span className="text-right">Prix</span>}
         <span className="hidden text-right sm:inline">Ajouté le</span>
         <span></span>
       </div>
@@ -143,7 +147,7 @@ export function VolumesTable({ volumes }: { volumes: Volume[] }) {
         volumes.map((v) => (
           <div
             key={v.id}
-            className={`${GRID_CLS} items-center border-b border-[var(--border)] px-3 py-3 text-[13px] sm:px-[18px]`}
+            className={`${gridCls} items-center border-b border-[var(--border)] px-3 py-3 text-[13px] sm:px-[18px]`}
           >
             <span
               className="mt-mono inline-block text-center"
@@ -180,14 +184,14 @@ export function VolumesTable({ volumes }: { volumes: Volume[] }) {
               </span>
             </span>
             <span className="hidden sm:inline" />
-            <EditablePrice volumeId={v.id} price={Number(v.price ?? 0)} />
+            {showPrice && <EditablePrice volumeId={v.id} price={Number(v.price ?? 0)} />}
             <span className="mt-mono hidden text-right text-xs text-muted sm:inline" style={{ fontVariantNumeric: "tabular-nums" }}>
               {new Date(v.created_at).toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit", year: "2-digit" })}
             </span>
             <button
               onClick={() => remove(v)}
               aria-label="Supprimer le tome"
-              className="flex h-[22px] w-[22px] items-center justify-center rounded text-muted-2 hover:text-crimson"
+              className="col-start-4 flex h-[22px] w-[22px] items-center justify-center rounded text-muted-2 hover:text-crimson sm:col-auto"
             >
               <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.4">
                 <path d="M3 4h10M6 4V3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v1M5 4l.6 8a1 1 0 0 0 1 1h2.8a1 1 0 0 0 1-1L11 4" />

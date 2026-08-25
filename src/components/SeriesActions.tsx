@@ -11,7 +11,9 @@ export function SeriesActions({ series }: { series: Series }) {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState(series.title);
   const [publisher, setPublisher] = useState(series.publisher ?? "");
+  const [platform, setPlatform] = useState(series.platform ?? "");
   const [variant, setVariant] = useState(series.edition_variant ?? "");
+  const isDigital = series.format === "digital";
   const [status, setStatus] = useState(series.status);
   const [total, setTotal] = useState(series.total_volumes != null ? String(series.total_volumes) : "");
   const [coverUrl, setCoverUrl] = useState<string | null>(series.cover_url);
@@ -74,8 +76,9 @@ export function SeriesActions({ series }: { series: Series }) {
       try {
         await updateSeries(series.id, {
           title: title.trim(),
-          publisher: publisher.trim(),
-          edition_variant: variant.trim() || null,
+          publisher: isDigital ? null : publisher.trim(),
+          platform: isDigital ? platform.trim() : null,
+          edition_variant: isDigital ? null : variant.trim() || null,
           status,
           total_volumes: total ? Number(total) : null,
           cover_url: coverUrl,
@@ -134,16 +137,23 @@ export function SeriesActions({ series }: { series: Series }) {
                 <label className="mt-label mb-1.5 block">Titre</label>
                 <input className="mt-input" value={title} onChange={(e) => setTitle(e.target.value)} />
               </div>
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {isDigital ? (
                 <div>
-                  <label className="mt-label mb-1.5 block">Éditeur</label>
-                  <input className="mt-input" value={publisher} onChange={(e) => setPublisher(e.target.value)} />
+                  <label className="mt-label mb-1.5 block">Plateforme</label>
+                  <input className="mt-input" value={platform} onChange={(e) => setPlatform(e.target.value)} />
                 </div>
-                <div>
-                  <label className="mt-label mb-1.5 block">Variante</label>
-                  <input className="mt-input" value={variant} onChange={(e) => setVariant(e.target.value)} />
+              ) : (
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  <div>
+                    <label className="mt-label mb-1.5 block">Éditeur</label>
+                    <input className="mt-input" value={publisher} onChange={(e) => setPublisher(e.target.value)} />
+                  </div>
+                  <div>
+                    <label className="mt-label mb-1.5 block">Variante</label>
+                    <input className="mt-input" value={variant} onChange={(e) => setVariant(e.target.value)} />
+                  </div>
                 </div>
-              </div>
+              )}
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <div>
                   <label className="mt-label mb-1.5 block">Nb total de tomes</label>
