@@ -87,7 +87,11 @@ export function ReadVolumesDialog({
             {volumes.map((v) => (
               <li
                 key={v.id}
-                className="flex items-center gap-3 rounded-md border border-[var(--border)] bg-surface-2 p-2"
+                className="flex items-center gap-3 rounded-md border p-2"
+                style={{
+                  borderColor: v.format === "digital" ? "var(--digital-line)" : "var(--border)",
+                  background: v.format === "digital" ? "var(--surface-digital)" : "var(--surface-2)",
+                }}
               >
                 <div
                   className="shrink-0 w-10 overflow-hidden rounded shadow-[0_4px_12px_-6px_rgba(0,0,0,0.6)]"

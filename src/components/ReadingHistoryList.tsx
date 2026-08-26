@@ -42,8 +42,12 @@ export function ReadingHistoryList({ groups }: { groups: ReadingGroup[] }) {
         <li key={`${group.series_id}-${group.from_volume}-${group.first_read_at}`}>
           <Link
             href={`/series/${group.series_id}`}
-            className="grid min-h-[86px] overflow-hidden rounded-[10px] border border-[var(--border-2)] bg-surface transition-colors hover:border-[var(--border-3)]"
-            style={{ gridTemplateColumns: "62px 1fr" }}
+            className="grid min-h-[86px] overflow-hidden rounded-[10px] border transition-colors"
+            style={{
+              gridTemplateColumns: "62px 1fr",
+              borderColor: group.format === "digital" ? "var(--digital-line)" : "var(--border-2)",
+              background: group.format === "digital" ? "var(--surface-digital)" : "var(--surface)",
+            }}
           >
             <div className="border-r border-[var(--border)]">
               <div className="h-full w-full">

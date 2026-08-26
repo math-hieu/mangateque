@@ -2,14 +2,20 @@ import Link from "next/link";
 import { Cover } from "./Cover";
 import { StatusTag } from "./StatusTag";
 import { issuerLabel } from "@/lib/series";
+import { DigitalBadge } from "./DigitalBadge";
 import type { SeriesCardData } from "@/lib/types";
 
 export function SeriesCard({ s }: { s: SeriesCardData }) {
   const pct = s.owned_count ? Math.round((s.read_count / s.owned_count) * 100) : 0;
+  const isDigital = s.format === "digital";
   return (
     <Link
       href={`/series/${s.id}`}
-      className="flex flex-col overflow-hidden rounded-[10px] border border-[var(--border)] bg-surface transition-colors hover:bg-surface-2"
+      className="flex flex-col overflow-hidden rounded-[10px] border transition-colors"
+      style={{
+        borderColor: isDigital ? "var(--digital-line)" : "var(--border)",
+        background: isDigital ? "var(--surface-digital)" : "var(--surface)",
+      }}
     >
       <div className="border-b border-[var(--border)]" style={{ aspectRatio: "0.71" }}>
         <Cover url={s.cover_url} seedKey={s.id} title={s.title} publisher={issuerLabel(s)} />
@@ -19,10 +25,13 @@ export function SeriesCard({ s }: { s: SeriesCardData }) {
           <span className="truncate w-full sm:w-auto sm:flex-1 text-sm font-medium leading-tight tracking-tight">{s.title}</span>
           <StatusTag status={s.status} compact />
         </div>
-        <span className="mt-mono text-[10px] text-muted" style={{ letterSpacing: "0.06em" }}>
-          {issuerLabel(s).toUpperCase()}
-          {s.edition_variant ? ` · ${s.edition_variant.toUpperCase()}` : ""}
-        </span>
+        <div className="flex items-center gap-2">
+          <span className="mt-mono truncate text-[10px] text-muted" style={{ letterSpacing: "0.06em" }}>
+            {issuerLabel(s).toUpperCase()}
+            {s.edition_variant ? ` · ${s.edition_variant.toUpperCase()}` : ""}
+          </span>
+          {isDigital && <DigitalBadge />}
+        </div>
         <div
           className="mt-mono grid border-t border-[var(--border)] pt-2"
           style={{ gridTemplateColumns: "1fr 1fr", rowGap: 4, columnGap: 8 }}

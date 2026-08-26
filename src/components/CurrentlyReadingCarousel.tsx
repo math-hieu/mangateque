@@ -4,6 +4,7 @@ import { useRef, useTransition } from "react";
 import Link from "next/link";
 import { toast } from "sonner";
 import { Cover } from "./Cover";
+import { DigitalBadge } from "./DigitalBadge";
 import { toggleVolumeRead } from "@/actions/volumes";
 import { issuerLabel } from "@/lib/series";
 import type { ReadingItem } from "@/lib/types";
@@ -61,6 +62,7 @@ export function CurrentlyReadingCarousel({ items }: Props) {
 
 function ReadingCard({ item }: { item: ReadingItem }) {
   const { series, owned_count, read_count, next_volume } = item;
+  const isDigital = series.format === "digital";
   const pct = owned_count > 0 ? Math.round((read_count / owned_count) * 100) : 0;
   const tickCount = owned_count > 1 && owned_count <= 14 ? owned_count - 1 : 0;
   const numStr = String(next_volume.number).padStart(2, "0");
@@ -80,8 +82,12 @@ function ReadingCard({ item }: { item: ReadingItem }) {
   return (
     <article
       data-card
-      className="grid min-h-[152px] w-full shrink-0 snap-start basis-full overflow-hidden rounded-[10px] border border-[var(--border-2)] bg-surface sm:w-auto sm:basis-[46%] md:basis-[31%] lg:basis-[32%]"
-      style={{ gridTemplateColumns: "92px 1fr" }}
+      className="grid min-h-[152px] w-full shrink-0 snap-start basis-full overflow-hidden rounded-[10px] border sm:w-auto sm:basis-[46%] md:basis-[31%] lg:basis-[32%]"
+      style={{
+        gridTemplateColumns: "92px 1fr",
+        borderColor: isDigital ? "var(--digital-line)" : "var(--border-2)",
+        background: isDigital ? "var(--surface-digital)" : "var(--surface)",
+      }}
     >
       <Link href={`/series/${series.id}`} className="relative block border-r border-[var(--border)]">
         <div className="h-full w-full" style={{ aspectRatio: "0.71" }}>
@@ -113,9 +119,12 @@ function ReadingCard({ item }: { item: ReadingItem }) {
       </Link>
 
       <div className="flex min-w-0 flex-col gap-2 px-3.5 py-3">
-        <h3 className="truncate text-[14px] font-medium tracking-tight text-cream">
-          <Link href={`/series/${series.id}`} className="hover:text-amber">{series.title}</Link>
-        </h3>
+        <div className="flex items-baseline gap-2">
+          <h3 className="truncate text-[14px] font-medium tracking-tight text-cream">
+            <Link href={`/series/${series.id}`} className="hover:text-amber">{series.title}</Link>
+          </h3>
+          {isDigital && <DigitalBadge />}
+        </div>
 
         <span className="mt-mono text-[10px] text-muted" style={{ letterSpacing: "0.06em" }}>
           {issuerLabel(series).toUpperCase()}

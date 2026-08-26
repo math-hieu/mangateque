@@ -17,6 +17,11 @@
   --amber-deep: #d18334;
   --amber-soft: rgba(232, 161, 74, 0.14);
   --crimson:    #c66756;
+  /* Numérique : même clarté que --surface, teinte froide — la palette étant
+     entièrement chaude, le contraste se lit d'un coup d'œil sans crier. */
+  --surface-digital: #232a2e;
+  --digital:         #7fb3cc;
+  --digital-line:    rgba(127, 179, 204, 0.35);
 }
 
 @theme inline {
@@ -33,6 +38,9 @@
   --color-amber-deep: var(--amber-deep);
   --color-amber-soft: var(--amber-soft);
   --color-crimson: var(--crimson);
+  --color-surface-digital: var(--surface-digital);
+  --color-digital: var(--digital);
+  --color-digital-line: var(--digital-line);
   --font-sans: var(--font-geist-sans), system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, Menlo, monospace;
 }

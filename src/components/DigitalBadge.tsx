@@ -1,9 +1,14 @@
-/** Marque une lecture faite sur support numérique, dans les vues qui mêlent les deux. */
+/** Marque une série ou une lecture numérique, partout où elle apparaît. */
 export function DigitalBadge() {
   return (
     <span
-      className="mt-mono shrink-0 rounded-[3px] border border-[var(--border-3)] px-1.5 py-0.5 text-[9px] text-cream-mute"
-      style={{ letterSpacing: "0.06em" }}
+      className="mt-mono shrink-0 rounded-[3px] border px-1.5 py-0.5 text-[10px] font-medium"
+      style={{
+        borderColor: "var(--digital-line)",
+        background: "rgba(127, 179, 204, 0.12)",
+        color: "var(--digital)",
+        letterSpacing: "0.06em",
+      }}
     >
       NUMÉRIQUE
     </span>

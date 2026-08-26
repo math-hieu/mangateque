@@ -137,13 +137,17 @@ export async function listSeriesForLibrary(
   });
 }
 
-export async function listInProgressSeries(
-  format: SeriesFormat = "physical",
-): Promise<ReadingItem[]> {
-  const { data, error } = await supabase()
+/**
+ * Séries dont la lecture peut continuer, triées par activité la plus récente.
+ * Sans `format`, les deux supports sont renvoyés entrelacés : « ce que je lis »
+ * est une notion d'activité, pas de possession.
+ */
+export async function listInProgressSeries(format?: SeriesFormat): Promise<ReadingItem[]> {
+  let query = supabase()
     .from("series")
-    .select("id, title, publisher, platform, format, edition_variant, cover_url, volumes(id, number, is_read, read_at, created_at)")
-    .eq("format", format);
+    .select("id, title, publisher, platform, format, edition_variant, cover_url, volumes(id, number, is_read, read_at, created_at)");
+  if (format) query = query.eq("format", format);
+  const { data, error } = await query;
   if (error) throw new Error(error.message);
 
   const items: (ReadingItem & { _activity: number })[] = [];
