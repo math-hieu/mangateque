@@ -3,6 +3,7 @@ import { Cover } from "./Cover";
 import { StatusTag } from "./StatusTag";
 import { issuerLabel } from "@/lib/series";
 import { DigitalBadge } from "./DigitalBadge";
+import { RatingStars } from "./RatingStars";
 import type { SeriesCardData } from "@/lib/types";
 
 export function SeriesCard({ s }: { s: SeriesCardData }) {
@@ -31,6 +32,9 @@ export function SeriesCard({ s }: { s: SeriesCardData }) {
             {s.edition_variant ? ` · ${s.edition_variant.toUpperCase()}` : ""}
           </span>
           {isDigital && <DigitalBadge />}
+          <span className="ml-auto">
+            <RatingStars rating={s.rating} />
+          </span>
         </div>
         <div
           className="mt-mono grid border-t border-[var(--border)] pt-2"

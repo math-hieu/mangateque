@@ -83,6 +83,18 @@ export async function updateSeries(id: string, input: Partial<CreateSeriesInput>
   revalidatePath(`/series/${id}`);
 }
 
+/** `rating` à null retire la note. */
+export async function setSeriesRating(id: string, rating: number | null) {
+  if (rating !== null && (!Number.isInteger(rating) || rating < 1 || rating > 5)) {
+    throw new Error("Note invalide (1 à 5)");
+  }
+  const { error } = await supabase().from("series").update({ rating }).eq("id", id);
+  if (error) throw new Error(error.message);
+  revalidatePath("/");
+  revalidatePath("/numerique");
+  revalidatePath(`/series/${id}`);
+}
+
 export async function deleteSeries(id: string) {
   const sb = supabase();
   const { data: existing } = await sb.from("series").select("format").eq("id", id).maybeSingle();

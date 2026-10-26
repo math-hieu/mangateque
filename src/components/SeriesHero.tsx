@@ -1,5 +1,6 @@
 import { Cover } from "./Cover";
 import { StatusTag } from "./StatusTag";
+import { RatingInput } from "./RatingInput";
 import { issuerLabel } from "@/lib/series";
 import type { Series } from "@/lib/types";
 
@@ -38,6 +39,8 @@ export function SeriesHero({ series, ownedCount, totalSpent, readCount, actions 
             )}
             <span className="mt-label self-center">Statut</span>
             <span><StatusTag status={series.status} /></span>
+            <span className="mt-label self-center">Note</span>
+            <RatingInput key={series.rating ?? "none"} seriesId={series.id} rating={series.rating} />
             {series.anilist_id != null && (
               <>
                 <span className="mt-label self-center">AniList</span>

@@ -13,6 +13,8 @@ export type Series = {
   edition_variant: string | null;
   total_volumes: number | null;
   status: SeriesStatus;
+  /** 1 à 5, null tant que la série n'est pas notée. */
+  rating: number | null;
   created_at: string;
 };
 
