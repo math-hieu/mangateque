@@ -1,0 +1,651 @@
+{
+  "generated_at": "2026-10-27T12:00:00+01:00",
+  "based_on": {
+    "rated_count": 19,
+    "owned_count": 35
+  },
+  "recommendations": [
+    {
+      "rank": 1,
+      "title": "Frieren",
+      "why": "Tu as mis 5/5 à L'Atelier des sorciers, Ichi the Witch et Meteoria : la fantasy portée par la magie et un vrai sens de l'émerveillement est clairement ton terrain. Frieren prend le genre à rebours en racontant l'après-quête, avec une mélancolie et une douceur qui le placent dans la même famille que l'Atelier. C'est aussi l'un des mangas les plus primés de ces dernières années.",
+      "pros": [
+        "Une heroic fantasy empreinte de poésie, qui s'attarde sur le quotidien des héros « entre deux faits d'armes » (coup de cœur du CNLJ/BnF).",
+        "Lauréat du prix Manga Taisho 2021 et du prix du manga Kodansha 2024 (catégorie shōnen).",
+        "Le tome 15 est jugé « passionnant, lourd de sens » par Manga-News, avec de belles surprises.",
+        "Ki-oon en propose une édition suivie depuis 2022, avec des éditions limitées."
+      ],
+      "cons": [
+        "Le CNLJ note un dessin qui « manque un peu de relief ».",
+        "Anime News Network trouve que Fern manque de personnalité au début.",
+        "Les arcs longs à enjeux et plus combatifs prennent peu à peu le pas sur les histoires courtes et mélancoliques (Manga-News, tome 15).",
+        "Série en cours : 15 tomes en VF, la fin n'est pas pour tout de suite."
+      ],
+      "sources": [
+        {
+          "label": "Ki-oon",
+          "url": "https://www.ki-oon.com/series/frieren"
+        },
+        {
+          "label": "Wikipédia",
+          "url": "https://fr.wikipedia.org/wiki/Frieren"
+        },
+        {
+          "label": "CNLJ / BnF",
+          "url": "https://catalogue.bnf.fr/ark:/12148/cb47201459s"
+        },
+        {
+          "label": "Manga-News",
+          "url": "https://www.manga-news.com/index.php/manga/critique/Frieren/vol-15"
+        }
+      ],
+      "related_to": null,
+      "fr": {
+        "publisher": "Ki-oon",
+        "volumes": 15,
+        "status": "ongoing",
+        "source_url": "https://www.ki-oon.com/series/frieren"
+      },
+      "anilist": {
+        "id": 118586,
+        "url": "https://anilist.co/manga/118586",
+        "title_romaji": "Sousou no Frieren",
+        "cover_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx118586-CXKgWikBFQgS.jpg",
+        "volumes": null,
+        "status": "ongoing",
+        "average_score": 87,
+        "genres": [
+          "Adventure",
+          "Drama",
+          "Fantasy"
+        ],
+        "start_year": 2020,
+        "authors": [
+          "Kanehito Yamada",
+          "Tsukasa Abe"
+        ]
+      }
+    },
+    {
+      "rank": 2,
+      "title": "Monster",
+      "why": "Tu as mis 5/5 à Death Note et au Bateau de Thésée : les thrillers à suspense, avec un jeu du chat et de la souris et un mystère qui tient jusqu'au bout, te réussissent. Monster est la référence absolue du genre, signée Urasawa (que tu possèdes déjà avec 20th Century Boys). Et c'est une série finie : tu peux la lire d'une traite.",
+      "pros": [
+        "Une intrigue « ficelée de A à Z » selon les lecteurs de SensCritique.",
+        "Une fin jugée magistrale, qui boucle la boucle avec le retour du Dr Tenma à ses scalpels.",
+        "Urasawa maîtrise son histoire de bout en bout (Manga-News).",
+        "Couronné par le prix culturel Osamu Tezuka (1999) et le prix Shōgakukan (2001)."
+      ],
+      "cons": [
+        "Une critique d'AnimeClick estime que la série aurait été meilleure avec quelques volumes de moins.",
+        "Manga-News note que l'auteur fait parfois traîner les choses et tarde à répondre aux questions sur Johan (tome 6).",
+        "Manga-News juge l'édition Deluxe de Kana pas forcément à la hauteur du contenu."
+      ],
+      "sources": [
+        {
+          "label": "Wikipédia",
+          "url": "https://fr.wikipedia.org/wiki/Monster_(manga)"
+        },
+        {
+          "label": "SensCritique",
+          "url": "https://www.senscritique.com/bd/monster/critique/221388695"
+        },
+        {
+          "label": "SensCritique",
+          "url": "https://www.senscritique.com/bd/scene_d_apocalypse_monster_tome_18/critique/141087402"
+        },
+        {
+          "label": "Manga-News",
+          "url": "https://www.manga-news.com/index.php/manga/critique/Monster-Deluxe/vol-1"
+        },
+        {
+          "label": "Manga-News",
+          "url": "https://www.manga-news.com/index.php/manga/critique/Monster-Deluxe/vol-6"
+        },
+        {
+          "label": "AnimeClick",
+          "url": "https://www.animeclick.it/recensione/50669"
+        }
+      ],
+      "related_to": null,
+      "fr": {
+        "publisher": "Kana",
+        "volumes": 9,
+        "status": "completed",
+        "source_url": "https://fr.wikipedia.org/wiki/Monster_(manga)"
+      },
+      "anilist": {
+        "id": 30001,
+        "url": "https://anilist.co/manga/30001",
+        "title_romaji": "MONSTER",
+        "cover_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx30001-Knby7l1jevE7.jpg",
+        "volumes": 18,
+        "status": "completed",
+        "average_score": 90,
+        "genres": [
+          "Drama",
+          "Mystery",
+          "Psychological",
+          "Thriller"
+        ],
+        "start_year": 1994,
+        "authors": [
+          "Naoki Urasawa"
+        ]
+      }
+    },
+    {
+      "rank": 3,
+      "title": "Gloutons & Dragons",
+      "why": "Tu as mis 5/5 à L'Atelier des sorciers : tu aimes les univers de fantasy dont les règles sont pensées dans le détail. Gloutons & Dragons construit tout son monde autour de l'écologie des monstres (qu'on cuisine), avec un humour qui tranche avec les shōnen de combat que tu as mal notés (Demon Slayer, Jujutsu Kaisen, Mashle). Série terminée en 14 tomes.",
+      "pros": [
+        "Des chapitres assez indépendants qui se lisent très bien à petites doses, avec un bestiaire imaginatif (Manga-News, tome 2).",
+        "Aucune lassitude après plusieurs tomes, grâce à l'humour et à un bon équilibre entre recette de base et nouveautés (Manga-News, tome 3).",
+        "Un combat final et des rebondissements maîtrisés (Manga-News, tome 13, 16,5/20).",
+        "Premier du classement Kono Manga ga Sugoi! 2016 (catégorie hommes)."
+      ],
+      "cons": [
+        "Un lecteur trouve que l'intrigue principale démarre tard et reste très épisodique.",
+        "Le même lecteur trouve le rythme étrange pour une équipe censée foncer sauver une amie.",
+        "Un avis MyAnimeList estime que ce n'est pas le manga le mieux écrit, même si l'histoire est excellente."
+      ],
+      "sources": [
+        {
+          "label": "Wikipédia",
+          "url": "https://fr.wikipedia.org/wiki/Gloutons_et_Dragons"
+        },
+        {
+          "label": "Manga-News",
+          "url": "https://www.manga-news.com/index.php/manga/critique/Gloutons-et-Dragons/vol-2"
+        },
+        {
+          "label": "Manga-News",
+          "url": "https://www.manga-news.com/index.php/manga/critique/Gloutons-et-Dragons/vol-3"
+        },
+        {
+          "label": "Manga-News",
+          "url": "https://www.manga-news.com/index.php/manga/critique/Gloutons-et-Dragons/vol-13"
+        },
+        {
+          "label": "Lemmy",
+          "url": "https://discuss.jacen.moe/post/81363"
+        },
+        {
+          "label": "MyAnimeList",
+          "url": "https://myanimelist.net/profile/jackskii/reviews"
+        }
+      ],
+      "related_to": null,
+      "fr": {
+        "publisher": "Casterman (Sakka)",
+        "volumes": 14,
+        "status": "completed",
+        "source_url": "https://fr.wikipedia.org/wiki/Gloutons_et_Dragons"
+      },
+      "anilist": {
+        "id": 86082,
+        "url": "https://anilist.co/manga/86082",
+        "title_romaji": "Dungeon Meshi",
+        "cover_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx86082-MXizJxzbijdd.jpg",
+        "volumes": 14,
+        "status": "completed",
+        "average_score": 88,
+        "genres": [
+          "Adventure",
+          "Comedy",
+          "Drama",
+          "Fantasy"
+        ],
+        "start_year": 2014,
+        "authors": [
+          "Ryouko Kui"
+        ]
+      }
+    },
+    {
+      "rank": 4,
+      "title": "Pluto",
+      "why": "Tu as adoré Death Note et Le Bateau de Thésée (5/5) : Pluto est une enquête policière sur des meurtres de robots, menée avec la tension des meilleurs thrillers d'Urasawa. En 8 tomes seulement, c'est court, dense et terminé, donc sans risque d'essoufflement.",
+      "pros": [
+        "Une saga courte mais très dense, dont la conclusion est saluée par Manga-News.",
+        "Prix culturel Osamu Tezuka 2005 et prix intergénérations à Angoulême en 2011.",
+        "Un dessin jugé profond, autant dans les paysages que dans les visages (SensCritique).",
+        "Une relecture adulte d'un épisode d'Astro Boy, transformé en thriller."
+      ],
+      "cons": [
+        "Manga-News trouve le tome 7 linéaire, avec quelques facilités et redondances.",
+        "La conclusion reste très proche de l'œuvre originale de Tezuka (Manga-News).",
+        "Un lecteur de SensCritique estime qu'Urasawa « refait du Urasawa » : audacieux mais pas irréprochable."
+      ],
+      "sources": [
+        {
+          "label": "Wikipédia",
+          "url": "https://fr.wikipedia.org/wiki/Pluto_(manga)"
+        },
+        {
+          "label": "Manga-News",
+          "url": "https://www.manga-news.com/index.php/manga/critique/Pluto/vol-7"
+        },
+        {
+          "label": "Manga-News",
+          "url": "https://www.manga-news.com/index.php/report/Pluto"
+        },
+        {
+          "label": "SensCritique",
+          "url": "https://www.senscritique.com/bd/pluto/critique/224409895"
+        }
+      ],
+      "related_to": null,
+      "fr": {
+        "publisher": "Kana",
+        "volumes": 8,
+        "status": "completed",
+        "source_url": "https://fr.wikipedia.org/wiki/Pluto_(manga)"
+      },
+      "anilist": {
+        "id": 30745,
+        "url": "https://anilist.co/manga/30745",
+        "title_romaji": "PLUTO",
+        "cover_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx30745-kueBpwriQkvZ.jpg",
+        "volumes": 8,
+        "status": "completed",
+        "average_score": 85,
+        "genres": [
+          "Drama",
+          "Mecha",
+          "Mystery",
+          "Psychological",
+          "Sci-Fi"
+        ],
+        "start_year": 2003,
+        "authors": [
+          "Naoki Urasawa",
+          "Osamu Tezuka",
+          "Makoto Tezuka",
+          "Takashi Nagasaki"
+        ]
+      }
+    },
+    {
+      "rank": 5,
+      "title": "Erased",
+      "why": "Tu as mis 5/5 au Bateau de Thésée : Erased repose sur la même mécanique, un héros renvoyé dans le passé pour démasquer le vrai coupable d'une série de crimes d'enfants. C'est un thriller compact (8 tomes + 1 tome bonus), terminé, qui se lit d'une traite.",
+      "pros": [
+        "Une histoire jugée « très bonne et prenante » par les lecteurs de Bédéthèque.",
+        "Un concept de voyage dans le temps mis au service d'une enquête sur des enlèvements d'enfants.",
+        "Une critique italienne raconte l'avoir relu du tome 1 au tome 9 d'une traite.",
+        "La fin du manga est généralement préférée à celle de l'anime."
+      ],
+      "cons": [
+        "Pas totalement original selon un lecteur de Bédéthèque.",
+        "Un style graphique très particulier qui peut rebuter (julsa.fr).",
+        "Une critique anglophone trouve l'identité du tueur trop annoncée."
+      ],
+      "sources": [
+        {
+          "label": "Manga-News",
+          "url": "https://www.manga-news.com/index.php/serie/Erased"
+        },
+        {
+          "label": "Bédéthèque",
+          "url": "https://www.bedetheque.com/BD-Erased-Tome-2-224279.html"
+        },
+        {
+          "label": "julsa.fr",
+          "url": "https://www.julsa.fr/?p=18297"
+        },
+        {
+          "label": "AnimeClick",
+          "url": "https://www.animeclick.it/recensione/76326"
+        },
+        {
+          "label": "The Outerhaven",
+          "url": "https://www.theouterhaven.net/?p=108625"
+        },
+        {
+          "label": "Shapes (fandom)",
+          "url": "https://shapes.inc/fandom/erased/controversies"
+        }
+      ],
+      "related_to": null,
+      "fr": {
+        "publisher": "Ki-oon",
+        "volumes": 9,
+        "status": "completed",
+        "source_url": "https://www.manga-news.com/index.php/serie/Erased"
+      },
+      "anilist": {
+        "id": 69325,
+        "url": "https://anilist.co/manga/69325",
+        "title_romaji": "Boku dake ga Inai Machi",
+        "cover_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx69325-17ud19Cg0xIO.jpg",
+        "volumes": 9,
+        "status": "completed",
+        "average_score": 80,
+        "genres": [
+          "Drama",
+          "Mystery",
+          "Psychological",
+          "Supernatural",
+          "Thriller"
+        ],
+        "start_year": 2012,
+        "authors": [
+          "Kei Sanbe"
+        ]
+      }
+    },
+    {
+      "rank": 6,
+      "title": "Bakuman",
+      "why": "Death Note fait partie de tes 5/5 : Bakuman réunit le même duo, Tsugumi Ohba et Takeshi Obata, avec la même passion des stratégies et des duels à distance, mais appliquée au métier de mangaka. Une plongée dans les coulisses du Jump, terminée en 20 tomes.",
+      "pros": [
+        "Une plongée didactique dans la fabrication d'un manga (Manga-News).",
+        "Le dessin d'Obata est un atout majeur selon les lecteurs.",
+        "Le tome 14 relance la série et le tome 19 conclut la rivalité de façon satisfaisante (Manga-News).",
+        "Certains tomes sont denses et prenants (Manga-News, tome 17)."
+      ],
+      "cons": [
+        "Une série inégale : certains tomes déçoivent ou tournent en rond (Manga-News, tome 17).",
+        "Des dialogues redondants et lourds selon certains lecteurs (tome 10).",
+        "La romance est l'élément le plus faible du récit (Manga-News).",
+        "Le trait d'Obata évolue d'une façon que certains lecteurs aiment moins."
+      ],
+      "sources": [
+        {
+          "label": "Manga-News",
+          "url": "https://www.manga-news.com/index.php/serie/critique/Bakuman"
+        },
+        {
+          "label": "Manga-News",
+          "url": "https://www.manga-news.com/index.php/manga/critique/Bakuman/vol-17"
+        },
+        {
+          "label": "Manga-News",
+          "url": "https://www.manga-news.com/index.php/manga/critique/Bakuman/vol-14"
+        },
+        {
+          "label": "Manga-News",
+          "url": "https://www.manga-news.com/index.php/manga/critique/Bakuman/vol-19"
+        },
+        {
+          "label": "Manga-News",
+          "url": "https://www.manga-news.com/index.php/manga/avis/Bakuman/vol-10"
+        }
+      ],
+      "related_to": null,
+      "fr": {
+        "publisher": "Kana",
+        "volumes": 20,
+        "status": "completed",
+        "source_url": "https://www.manga-news.com/index.php/serie/Bakuman"
+      },
+      "anilist": {
+        "id": 39711,
+        "url": "https://anilist.co/manga/39711",
+        "title_romaji": "Bakuman.",
+        "cover_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx39711-tjPWXT1AW321.jpg",
+        "volumes": 20,
+        "status": "completed",
+        "average_score": 81,
+        "genres": [
+          "Comedy",
+          "Drama",
+          "Romance",
+          "Slice of Life"
+        ],
+        "start_year": 2008,
+        "authors": [
+          "Takeshi Obata",
+          "Tsugumi Ooba"
+        ]
+      }
+    },
+    {
+      "rank": 7,
+      "title": "The Summer Hikaru Died",
+      "why": "Tu as mis 4/5 à Look Back, Goodbye Eri et Bug Ego : tu apprécies les récits intimes et dérangeants, qui jouent avec le deuil et le fantastique. The Summer Hikaru Died raconte un adolescent qui sait que son meilleur ami est mort et que « quelque chose » a pris sa place, entre drame et horreur rurale.",
+      "pros": [
+        "Mokumokuren est « au sommet de son art » avec des révélations et des ambiances fortes (Manga-News, tome 5, 16,5/20).",
+        "Des dessins très détaillés et expressifs, une atmosphère pesante et énigmatique (Gamewave).",
+        "Une œuvre introspective, entre drame adolescent et body horror (L'Éclaireur Fnac).",
+        "Un art jugé « époustouflant » par certains lecteurs."
+      ],
+      "cons": [
+        "Des dessins particulièrement sombres et une introduction un peu trop radicale (Gamewave).",
+        "Un lecteur n'est pas entré dans l'histoire et trouve la narration trop tape-à-l'œil.",
+        "Un récit lent, qui n'est ni une vraie romance ni un pur manga d'horreur (L'Éclaireur Fnac).",
+        "Série en cours en VF (7 tomes)."
+      ],
+      "sources": [
+        {
+          "label": "Gamewave",
+          "url": "https://gamewave.fr/manga/manga-the-summer-hikaru-died-avis-et-decouverte/"
+        },
+        {
+          "label": "Manga-News",
+          "url": "https://www.manga-news.com/index.php/manga/critique/The-Summer-Hikaru-Died/vol-5"
+        },
+        {
+          "label": "Manga-News",
+          "url": "https://www.manga-news.com/index.php/serie/avis/Ete-ou-Hikaru-est-mort-l"
+        },
+        {
+          "label": "L'Éclaireur Fnac",
+          "url": "https://leclaireur.fnac.com/article/606537-the-summer-hikaru-died-netflix-que-vaut-cet-anime-tres-attendu/"
+        }
+      ],
+      "related_to": null,
+      "fr": {
+        "publisher": "Pika",
+        "volumes": 7,
+        "status": "ongoing",
+        "source_url": "https://gamewave.fr/manga/manga-the-summer-hikaru-died-avis-et-decouverte/"
+      },
+      "anilist": {
+        "id": 138603,
+        "url": "https://anilist.co/manga/138603",
+        "title_romaji": "Hikaru ga Shinda Natsu",
+        "cover_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx138603-j0gcshf7PVkN.jpg",
+        "volumes": 10,
+        "status": "completed",
+        "average_score": 83,
+        "genres": [
+          "Horror",
+          "Mystery",
+          "Psychological",
+          "Supernatural",
+          "Thriller"
+        ],
+        "start_year": 2021,
+        "authors": [
+          "Mokmok Len"
+        ]
+      }
+    },
+    {
+      "rank": 8,
+      "title": "Bonne nuit Punpun",
+      "why": "Goodbye Eri et Look Back (4/5) montrent que tu es sensible aux récits d'auteur sur l'adolescence et la solitude. Bonne nuit Punpun est le grand classique du genre : une chronique de vie bouleversante et souvent dure, terminée en 13 tomes. À garder pour un moment où tu as le moral.",
+      "pros": [
+        "Le « chef-d'œuvre vertigineux » d'Inio Asano, sa série la plus aboutie (L'Éclaireur Fnac).",
+        "Un choix graphique marquant : Punpun dessiné en oiseau dans des décors d'un réalisme presque extrême (Manga-News).",
+        "Une note de 8,2 sur SensCritique, avec des lecteurs qui parlent de leur plus belle découverte."
+      ],
+      "cons": [
+        "Une tonalité triste et frustrante, à éviter quand ça ne va pas (L'Éclaireur Fnac).",
+        "Une lectrice trouve les dessins effrayants et s'est souvent sentie mal à l'aise (Livraddict).",
+        "Un début jugé assez mitigé par certains lecteurs."
+      ],
+      "sources": [
+        {
+          "label": "L'Éclaireur Fnac",
+          "url": "https://leclaireur.fnac.com/article/137874-portrait-inio-asano-le-maitre-de-la-tranche-de-vie/"
+        },
+        {
+          "label": "Manga-News",
+          "url": "https://www.manga-news.com/index.php/manga/Bonne-nuit-Punpun/vol-3"
+        },
+        {
+          "label": "SensCritique",
+          "url": "https://www.senscritique.com/bd/bonne_nuit_punpun/critique/23598169"
+        },
+        {
+          "label": "Livraddict",
+          "url": "https://livraddict.com/biblio/book.php?id=53002"
+        }
+      ],
+      "related_to": null,
+      "fr": {
+        "publisher": "Kana",
+        "volumes": 13,
+        "status": "completed",
+        "source_url": "https://www.fnac.com/a3827262/Bonne-nuit-Punpun-Tome-1-Bonne-Nuit-Punpun-Inio-Asano"
+      },
+      "anilist": {
+        "id": 34632,
+        "url": "https://anilist.co/manga/34632",
+        "title_romaji": "Oyasumi Punpun",
+        "cover_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx34632-5xMDkx3pXsEh.png",
+        "volumes": 13,
+        "status": "completed",
+        "average_score": 88,
+        "genres": [
+          "Drama",
+          "Psychological",
+          "Slice of Life"
+        ],
+        "start_year": 2007,
+        "authors": [
+          "Inio Asano"
+        ]
+      }
+    },
+    {
+      "rank": 9,
+      "title": "Vinland Saga",
+      "why": "Tu possèdes L'Attaque des Titans et Fullmetal Alchemist, et tu as mis 5/5 au Bateau de Thésée pour son récit au long cours : Vinland Saga est une fresque historique qui commence comme un récit de vengeance viking avant de devenir une réflexion sur la violence. Attention : les premiers tomes sont très guerriers, ce qui en fait un choix moins sûr vu tes notes basses sur les shōnen de combat.",
+      "pros": [
+        "Un dessin jugé « époustouflant », notamment dans les combats (Vaguely Offensive).",
+        "Une reconstitution historique très documentée de l'an mil (lecteurs SensCritique).",
+        "La série gagne en maturité après le prologue (AnimeClick).",
+        "Un récit qui mêle personnages fictifs et figures historiques comme Leif Erikson (L'Éclaireur Fnac)."
+      ],
+      "cons": [
+        "Un rythme lent, qui ne se justifie souvent qu'a posteriori.",
+        "Thorkell et Askeladd peuvent sembler un peu monolithiques sur le moment (Vaguely Offensive).",
+        "Le dernier tome (29) n'a pas encore de date de sortie confirmée en France : 28 tomes disponibles chez Kurokawa."
+      ],
+      "sources": [
+        {
+          "label": "Animotaku",
+          "url": "https://animotaku.fr/actualite/manga-vinland-saga-fin-chapitre-220/"
+        },
+        {
+          "label": "Vaguely Offensive",
+          "url": "https://vaguely-offensive.com/vinland-saga-vol-3-hc-makoto-yukimura/"
+        },
+        {
+          "label": "SensCritique",
+          "url": "https://senscritique.com/bd/vinland_saga/20807"
+        },
+        {
+          "label": "AnimeClick",
+          "url": "https://www.animeclick.it/recensione/42463"
+        },
+        {
+          "label": "L'Éclaireur Fnac",
+          "url": "https://leclaireur.fnac.com/article/cp46351-le-manga-vinland-saga-de-makoto-yukimura-ca-raconte-quoi/"
+        }
+      ],
+      "related_to": null,
+      "fr": {
+        "publisher": "Kurokawa",
+        "volumes": 28,
+        "status": "ongoing",
+        "source_url": "https://animotaku.fr/actualite/manga-vinland-saga-fin-chapitre-220/"
+      },
+      "anilist": {
+        "id": 30642,
+        "url": "https://anilist.co/manga/30642",
+        "title_romaji": "Vinland Saga",
+        "cover_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx30642-0mjRDkf4THpo.jpg",
+        "volumes": 29,
+        "status": "completed",
+        "average_score": 90,
+        "genres": [
+          "Action",
+          "Adventure",
+          "Drama"
+        ],
+        "start_year": 2005,
+        "authors": [
+          "Makoto Yukimura"
+        ]
+      }
+    },
+    {
+      "rank": 10,
+      "title": "Ranking of Kings",
+      "why": "Avec L'Atelier des sorciers, Ichi the Witch et Meteoria à 5/5, tu aimes la fantasy qui a l'allure d'un conte. Ranking of Kings suit Bojji, un petit prince sourd et moqué, dans un récit au dessin de livre pour enfants qui cache une histoire bien plus sombre. Un pari plus risqué que les autres : la série est longue et encore en cours.",
+      "pros": [
+        "Un dessin doux de livre pour enfants qui contraste fortement avec la violence des combats (Manga-News, tome 7).",
+        "Le retour de Bojji est présenté comme un grand moment de la série (Manga-News, tome 7).",
+        "Des notes solides de la rédaction de Manga-News : 16,87/20 au tome 7, 16/20 au tome 10."
+      ],
+      "cons": [
+        "Les notes baissent avec le temps : 14,75/20 pour la rédaction au tome 18.",
+        "Annoncée en 12 tomes à son lancement en France, la série en compte 22 au Japon et n'est pas finie.",
+        "Un accueil plus réservé sur le tome 1 chez les lecteurs de Bédéthèque (3,5/5, 4 votes)."
+      ],
+      "sources": [
+        {
+          "label": "Manga-News",
+          "url": "https://www.manga-news.com/index.php/manga/critique/Ranking-of-Kings/vol-7"
+        },
+        {
+          "label": "Manga-News",
+          "url": "https://www.manga-news.com/index.php/manga/editions/Ranking-of-Kings/vol-18"
+        },
+        {
+          "label": "Manga-News",
+          "url": "https://www.manga-news.com/index.php/manga/editions/Ranking-of-Kings/vol-10"
+        },
+        {
+          "label": "Animotaku",
+          "url": "https://animotaku.fr/actualite/manga-ranking-of-kings-date-sortie-france/"
+        },
+        {
+          "label": "Bédéthèque",
+          "url": "https://www.bedetheque.com/BD-Ranking-of-Kings-Tome-1-445717.html"
+        }
+      ],
+      "related_to": null,
+      "fr": {
+        "publisher": "Ki-oon",
+        "volumes": 18,
+        "status": "ongoing",
+        "source_url": "https://www.manga-news.com/index.php/manga/editions/Ranking-of-Kings/vol-18"
+      },
+      "anilist": {
+        "id": 114388,
+        "url": "https://anilist.co/manga/114388",
+        "title_romaji": "Ousama Ranking",
+        "cover_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx114388-2rzAX4Ui1zIG.jpg",
+        "volumes": null,
+        "status": "ongoing",
+        "average_score": 77,
+        "genres": [
+          "Action",
+          "Adventure",
+          "Comedy",
+          "Fantasy"
+        ],
+        "start_year": 2017,
+        "authors": [
+          "Sousuke Touka"
+        ]
+      }
+    }
+  ]
+}
