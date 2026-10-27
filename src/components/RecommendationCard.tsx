@@ -27,8 +27,8 @@ export function RecommendationCard({ reco, owned }: { reco: Recommendation; owne
   const { fr, anilist } = reco;
 
   return (
-    <article className="grid gap-4 rounded-[10px] border border-[var(--border)] bg-surface p-4 sm:grid-cols-[150px_1fr] sm:gap-5 sm:p-5">
-      <div className="w-[120px] overflow-hidden rounded-md sm:w-full">
+    <article className="grid gap-4 rounded-[10px] border border-[var(--border)] bg-surface p-4 sm:grid-cols-[200px_1fr] sm:gap-6 sm:p-5 lg:grid-cols-[240px_1fr]">
+      <div className="w-[180px] self-start overflow-hidden rounded-md sm:w-full">
         <Cover url={anilist.cover_url} seedKey={String(anilist.id)} title={reco.title} />
       </div>
 
