@@ -61,6 +61,46 @@ export type ReadingItem = {
   };
 };
 
+/** Statut VO (AniList) ou VF, même convention que `SeriesStatus`. */
+export type RecoStatus = "ongoing" | "completed";
+
+/** Une recommandation, telle qu'écrite par le skill /reco dans data/recommandations/. */
+export type Recommendation = {
+  rank: number;
+  title: string;
+  why: string;
+  pros: string[];
+  cons: string[];
+  sources: { label: string; url: string }[];
+  /** Titre de la série possédée dont celle-ci est une suite ou un spin-off. */
+  related_to: string | null;
+  fr: {
+    publisher: string;
+    volumes: number;
+    status: RecoStatus;
+    source_url: string;
+  };
+  anilist: {
+    id: number;
+    url: string;
+    title_romaji: string;
+    cover_url: string;
+    /** Tomes VO ; null quand AniList ne le connaît pas (série en cours). */
+    volumes: number | null;
+    status: RecoStatus;
+    average_score: number | null;
+    genres: string[];
+    start_year: number;
+    authors: string[];
+  };
+};
+
+export type RecommendationFile = {
+  generated_at: string;
+  based_on: { rated_count: number; owned_count: number };
+  recommendations: Recommendation[];
+};
+
 export type IsbnLookupResult = {
   isbn: string;
   rawTitle: string;
