@@ -13,9 +13,17 @@ export default async function RecommandationsPage({
   const { date } = await searchParams;
   const dates = await listRecommendationDates();
 
-  // Une date inconnue ou invalide retombe sur la génération la plus récente.
-  const current =date && dates.includes(date) ? date : dates[0];
-  const file = current ? await readRecommendations(current) : null;
+  // Une date inconnue, invalide ou dont le fichier est illisible retombe sur la
+  // génération lisible la plus récente.
+  let current: string | undefined;
+  let file = null;
+  for (const d of date && dates.includes(date) ? [date, ...dates] : dates) {
+    file = await readRecommendations(d);
+    if (file) {
+      current = d;
+      break;
+    }
+  }
 
   if (!current || !file) {
     return (

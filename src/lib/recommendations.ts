@@ -26,13 +26,19 @@ export async function listRecommendationDates(): Promise<string[]> {
 /**
  * `date` vient de l'URL : on ne lit que si elle figure parmi les fichiers
  * existants, ce qui écarte du même coup toute tentative de sortir du dossier.
+ * Un fichier illisible (JSON cassé, édité à la main) renvoie null plutôt que
+ * de faire tomber la page : c'est `scripts/reco-validate.mjs` qui garde le format.
  */
 export async function readRecommendations(date: string): Promise<RecommendationFile | null> {
   if (!DATE_RE.test(date)) return null;
   const dates = await listRecommendationDates();
   if (!dates.includes(date)) return null;
-  const raw = await readFile(path.join(DIR, `${date}.json`), "utf8");
-  return JSON.parse(raw) as RecommendationFile;
+  try {
+    const file = JSON.parse(await readFile(path.join(DIR, `${date}.json`), "utf8"));
+    return Array.isArray(file?.recommendations) ? (file as RecommendationFile) : null;
+  } catch {
+    return null;
+  }
 }
 
 /** Comparaison de titres insensible à la casse, aux accents et à la ponctuation. */
