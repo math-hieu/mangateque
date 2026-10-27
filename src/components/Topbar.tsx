@@ -5,6 +5,7 @@ const NAV_LINKS = [
   { href: "/numerique", label: "Numérique" },
   { href: "/lectures", label: "Lectures" },
   { href: "/stats", label: "Stats" },
+  { href: "/recommandations", label: "Recos" },
 ];
 
 /**
