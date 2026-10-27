@@ -46,6 +46,10 @@ Pour chaque candidat, cherche sur le web des avis de critiques et de lecteurs : 
 
 - Résume **3 à 4 points forts** (`pros`) et **3 à 4 points faibles** (`cons`).
 - **N'invente rien** : chaque point doit venir d'une page que tu as réellement consultée, et cette page figure dans `sources` (`{ "label": "Manga-News", "url": "https://…" }`).
+- **« Consultée » veut dire : tu as reçu le contenu de la page** via WebFetch. Un résumé de résultat de recherche ne compte pas. Si une page renvoie une erreur (403, paywall, anti-bot — c'est le cas de Manga-News), ne la cite pas et ne contourne pas le blocage : trouve une autre source.
+- Sources qui fonctionnent en général : SensCritique, L'Éclaireur Fnac, Wikipédia (réception critique), sites des éditeurs, blogs manga, Anime News Network. **Exclus** : sites agrégateurs ou de contenu généré (fandoms « controversies », pages type shapes.inc), pages de profil utilisateur, notices de catalogue (BnF) qui ne contiennent pas d'avis.
+- Si tu n'obtiens pas au moins 2 sources réellement lues avec des avis, écarte le candidat et remplace-le.
+- Même règle pour l'édition VF (étape 3) : `fr.source_url` doit être une page que tu as reçue, qui mentionne l'éditeur et le nombre de tomes VF.
 - `why` : 2 à 4 phrases qui expliquent pourquoi cette série lui correspond, en citant ses notes (« Tu as mis 5/5 à … »).
 
 ## 5. Identifier et vérifier la fiche AniList
